@@ -1,35 +1,32 @@
 <?php
 
+include_once( dirname(__DIR__) . '/classes/checkmyws-api.php');
+
 class checkmyws_widget extends WP_Widget {
 
 	function __construct() {
         	parent::__construct('checkmyws', 'Check my Website', array('description' => 'Display monitoring data of your website.'));
 	}
-    
+
 	function widget($args, $instance) {
 		extract( $args );
 
+		$api = new checkmyws_api;
+		$id = $api->checkmyws_api_id();
+		$status = $api->checkmyws_api_status($id);
+
 		$title = apply_filters('widget_title', $instance['title']);
-		$text = $instance['text'];
-		$checkbox = $instance['checkbox'];
 		$textarea = $instance['textarea'];
 		$select = $instance['select'];
-		$test = $instance['test'];
+
+		$websiteid = $instance['websiteid'];
+		$location = $instance['location'];
+		$yslow = $instance['yslow'];
 
     		echo $before_widget;
 
 		if ( $title ) {
 			echo $before_title . $title . $after_title;
-		}
-
-		// if the text field is set
-		if ( $text ) {
-			echo '<div class="widget-text">' . $text . '</div>';
-		}	
-
-		// if the checkbox is checked
-		if ( $checkbox == true ) {
-			echo 'This message is displayed if our checkbox is checked.';
 		}
 
 		// if text is entered in the textarea
@@ -46,9 +43,38 @@ class checkmyws_widget extends WP_Widget {
 			echo 'Option Three is Selected';
 		}
 
-		if ( $test ) {
-			echo '<div class="widget-text">' . $test . '</div>';
+		if ( $websiteid ) {
+			echo '<div class="widget-text">' . $websiteid . '</div>';
 		}
+
+		if ( $location == true ) {
+			echo '<div class="widget-text">';
+			echo '<h3>Location(s)</h3>';
+			echo '<ul>';
+			foreach($status['lastvalues']['httptime'] as $key => $value) {
+  				echo '<li>' . $key . ': ' . $value . ' ms</li>';
+			}
+			echo '</ul>';
+			echo '</div>';
+		}
+
+		if ( $yslow == true ) {
+			echo '<div class="widget-text">';
+			echo '<h3>YSlow</h3>';
+			echo 'Page Load Time: ' . $status['metas']['yslow_page_load_time'] . ' ms<br/>';
+			echo 'Score: ' . $status['metas']['yslow_score'] . ' %';
+			//echo '<pre>';
+			//print_r($status);
+			//echo '</pre>';
+			echo '</div>';
+		}
+
+                if ( $yslow == true ) {
+			echo '<br/>';
+                        echo '<div class="widget-text">';
+                        echo '<a href="https://checkmy.ws" style="font-size:0.7em;float:right;" target="_blank"><em>Monitored by Check my Website.</em></a>';
+		echo '</div>';
+                }
 
          	echo $after_widget;
 
@@ -58,44 +84,35 @@ class checkmyws_widget extends WP_Widget {
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
-		$instance['text'] = strip_tags($new_instance['text']);
-		$instance['checkbox'] = strip_tags($new_instance['checkbox']);
 		$instance['textarea'] = strip_tags($new_instance['textarea']);
 		$instance['select'] = strip_tags($new_instance['select']);
-		$instance['test'] =  strip_tags($new_instance['test']);
+		$instance['websiteid'] =  strip_tags($new_instance['websiteid']);
+		$instance['location'] = strip_tags($new_instance['location']);
+		$instance['yslow'] = strip_tags($new_instance['yslow']);
 
     		return $instance;
 	}
 
-	function form($instance) {	
+	function form($instance) {
+		$api = new checkmyws_api;
+		$status = $api->checkmyws_api_status();
 		$title = esc_attr($instance['title']);
-		$text = esc_attr($instance['text']);
-		$checkbox = esc_attr($instance['checkbox']);
 		$textarea = esc_attr($instance['textarea']);
-		$select = esc_attr($instance['select']); 
-		$test = esc_attr($instance['test']);
+		$select = esc_attr($instance['select']);
+		//$websiteid = esc_attr($instance['websiteid']);
+		$websiteid = $api->checkmyws_api_id();
+		$location = esc_attr($instance['location']);
+		$yslow = esc_attr($instance['yslow']);
 
-		$tmp = include( dirname(__DIR__) . '/classes/checkmyws_api.php' );
-		new checkmyws_api;
 		?>
 
 		<p>
-      			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Widget Title'); ?></label>
+      			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title'); ?></label>
       			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
     		</p>
 
-     		<p>
-      			<label for="<?php echo $this->get_field_id('text_field'); ?>"><?php _e('This is a single line text field:'); ?></label>
-      			<input class="widefat" id="<?php echo $this->get_field_id('text_field'); ?>" name="<?php echo $this->get_field_name('text_field'); ?>" type="text" value="<?php echo $text_field; ?>" />
-    		</p>
-
 		<p>
-      			<input id="<?php echo $this->get_field_id('checkbox'); ?>" name="<?php echo $this->get_field_name('checkbox'); ?>" type="checkbox" value="1" <?php checked( '1', $checkbox ); ?>/>
-    			<label for="<?php echo $this->get_field_id('checkbox'); ?>"><?php _e('This is a checkbox'); ?></label>
-    		</p>
-
-		<p>
-    			<label for="<?php echo $this->get_field_id('textarea'); ?>"><?php _e('This is a textarea:'); ?></label>
+    			<label for="<?php echo $this->get_field_id('textarea'); ?>"><?php _e('Textarea:'); ?></label>
     			<textarea class="widefat" id="<?php echo $this->get_field_id('textarea'); ?>" name="<?php echo $this->get_field_name('textarea'); ?>"><?php echo $textarea; ?></textarea>
     		</p>
 
@@ -112,8 +129,18 @@ class checkmyws_widget extends WP_Widget {
 		</p>
 
 		<p>
-			<label for="<?php echo $this->get_field_id('test'); ?>">Test</label>
-			<input class="widefat" id="<?php echo $this->get_field_id('test'); ?>" name="<?php echo $this->get_field_id('test'); ?>" type="text" value="<?php echo $tmp; ?>" />
+			<label for="<?php echo $this->get_field_id('websiteid'); ?>">Website ID</label>
+			<input class="widefat" id="<?php echo $this->get_field_id('websiteid'); ?>" name="<?php echo $this->get_field_name('websiteid'); ?>" type="text" value="<?php echo $websiteid; ?>" disabled />
+		</p>
+
+		<p>
+			<label for="<?php echo $this->get_field_id('location'); ?>">Display location(s) information</label>
+			<input class="widefat" id="<?php echo $this->get_field_id('location'); ?>" name="<?php echo $this->get_field_name('location'); ?>" type="checkbox"  value="1" <?php checked( '1', $location ); ?> />
+		</p>
+
+		<p>
+			<label for="<?php echo $this->get_field_id('yslow'); ?>">Display YSlow information</label>
+			<input class="widefat" id="<?php echo $this->get_field_id('yslow'); ?>" name="<?php echo $this->get_field_name('yslow'); ?>" type="checkbox" value="1" <?php checked( '1', $yslow ); ?> />
 		</p>
 
     		<?php

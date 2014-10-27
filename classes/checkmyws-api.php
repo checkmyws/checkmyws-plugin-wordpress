@@ -3,15 +3,15 @@
 class checkmyws_api {
 
         function __construct() {
-		$website = checkmyws_api_id();
-		$status = checkmyws_api_status( $website );
-		$metrics = checkmyws_api_metrics( $website );
-		$logs = checkmyws_api_logs( $website );
+		//$website = array( $this, 'checkmyws_api_id' );
+		//$status = array( $this, 'checkmyws_api_status( $website )' );
+		//$metrics = array( $this, 'checkmyws_api_metrics( $website )' );
+		//$logs = array( $this, 'checkmyws_api_logs( $website )' );
         }
 
         function checkmyws_api_id() {
 		$options = get_option( 'checkmyws_options' );
-		$website = $options['checkmyws-settings-field-websiteid'];
+		$website = $options[ 'checkmyws-settings-field-websiteid' ];
                 return $website;
 	}
 
