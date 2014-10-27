@@ -1,7 +1,11 @@
-.checkmyws-settings-page {
+.checkmyws-settings-title {
 }
 
-.checkmyws-settings-title {
+.checkmyws-settings-description > img, .checkmyws-settings-description > p {
+	display: inline-block;
+}
+
+.checkmyws-settings-content {
 }
 
 .checkmyws-settings-icon {
