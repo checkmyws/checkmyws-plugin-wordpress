@@ -20,4 +20,6 @@ new checkmyws_settings;
 include( 'classes/checkmyws-widgets.php' );
 new checkmyws_widgets;
 
+// Load Check my Website Shortcode
+
 ?>
