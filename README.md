@@ -1,0 +1,2 @@
+checkmyws-plugin-wordpress
+==========================
