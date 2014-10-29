@@ -9,15 +9,15 @@
 **/
 
 // Load Check my Website Stylesheets
-include( 'classes/checkmyws-stylesheets.php' );
+require_once( plugin_dir_path(__FILE__) . 'classes/checkmyws-stylesheets.php' );
 new checkmyws_stylesheets;
 
 // Load Check my Website Settings page under the submenu Settings on Admin panel
-include( 'classes/checkmyws-settings.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'classes/checkmyws-settings.php' );
 new checkmyws_settings;
 
 // Load Check my Website Widget
-include( 'classes/checkmyws-widgets.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'classes/checkmyws-widgets.php' );
 new checkmyws_widgets;
 
 ?>
