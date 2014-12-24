@@ -31,18 +31,10 @@ class Check_my_Website_Deactivator {
 	 */
 	public static function deactivate() {
 
-		require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
-
-		global $wpdb;
-
-		$table = $wpdb->prefix . 'check_my_website';
-                $sql = 'DROP TABLE IF EXISTS ' . $table . ';';
-
-		$option = 'check_my_website_settings';
-
-		delete_option( $option );
-		$wpdb->query( $sql );
-
+        //If user doesn't have rights to deactivate exit.
+        if ( !current_user_can( 'activate_plugins' ) ) 
+            exit();
+        
 	}
 
 }

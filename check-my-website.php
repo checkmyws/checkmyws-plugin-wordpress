@@ -48,8 +48,18 @@ function deactivate_check_my_website() {
 	Check_my_Website_Deactivator::deactivate();
 }
 
+/**
+ * The code that runs during plugin uninstallation.
+ * This action is documented in includes/class-plugin-name-uninstaller.php
+ */
+function deactivate_check_my_website() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-check-my-website-uninstaller.php';
+	Check_my_Website_Uninstaller::uninstall();
+}
+
 register_activation_hook( __FILE__, 'activate_check_my_website' );
 register_deactivation_hook( __FILE__, 'deactivate_check_my_website' );
+register_uninstall_hook( __FILE__, 'uninstall_check_my_website' )
 
 /**
  * The core plugin class that is used to define internationalization,
