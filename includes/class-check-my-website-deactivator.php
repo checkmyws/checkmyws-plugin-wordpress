@@ -30,10 +30,6 @@ class Check_my_Website_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
-        //If user doesn't have rights to deactivate exit.
-        if ( !current_user_can( 'activate_plugins' ) ) 
-            exit();
         
 	}
 

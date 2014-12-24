@@ -30,10 +30,6 @@ class Check_my_Website_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
-        //If user doesn't have rights to activate exit.
-        if ( !current_user_can( 'activate_plugins' ) ) 
-            exit();
             
 		global $wpdb;
         $plugin_table = $wpdb->prefix . 'check_my_website';

@@ -30,10 +30,6 @@ class Check_my_Website_Uninstaller {
 	 * @since    1.0.0
 	 */
 	public static function uninstall() {
-
-        //If uninstall not called from WordPress exit.
-        if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) 
-            exit();
         
         // Delete plugin option (settings).
 		$option = 'check_my_website_settings';
