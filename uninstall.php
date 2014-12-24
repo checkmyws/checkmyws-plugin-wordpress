@@ -29,3 +29,13 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+// Delete plugin option (settings).
+$option = 'check_my_website_settings';
+delete_option( $option );
+
+// Delete plugin table.
+global $wpdb;
+$plugin_table = $wpdb->prefix . 'check_my_website';
+$sql = "DROP TABLE IF EXISTS " . $plugin_table . ";";
+$wpdb->query( $sql );

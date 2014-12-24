@@ -34,7 +34,7 @@ class Check_my_Website_Activator {
 		global $wpdb;
         	$plugin_table = $wpdb->prefix . 'check_my_website';
         
-		if( $wpdb->get_var( "SHOW TABLES LIKE '" . $plugin_table . "';" ) != $plugin_table ) {
+		if( $wpdb->get_var( "SHOW TABLES LIKE " . $plugin_table . ";" ) != $plugin_table ) {
 
 			if ( ! empty( $wpdb->charset ) )
 				$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
