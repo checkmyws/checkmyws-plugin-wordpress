@@ -31,15 +31,15 @@ class Check_my_Website_Uninstaller {
 	 */
 	public static function uninstall() {
         
-        // Delete plugin option (settings).
+	        // Delete plugin option (settings).
 		$option = 'check_my_website_settings';
 		delete_option( $option );
         
-        // Delete plugin table.
-        global $wpdb;
-        $plugin_table = $wpdb->prefix . 'check_my_website';
-        $sql = "DROP TABLE IF EXISTS '" . $plugin_table . "';";
-        $wpdb->query( $sql );
+        	// Delete plugin table.
+        	global $wpdb;
+        	$plugin_table = $wpdb->prefix . 'check_my_website';
+        	$sql = "DROP TABLE IF EXISTS '" . $plugin_table . "';";
+        	$wpdb->query( $sql );
 
 	}
 

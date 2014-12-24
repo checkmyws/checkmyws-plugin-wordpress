@@ -32,7 +32,7 @@ class Check_my_Website_Activator {
 	public static function activate() {
             
 		global $wpdb;
-        $plugin_table = $wpdb->prefix . 'check_my_website';
+        	$plugin_table = $wpdb->prefix . 'check_my_website';
         
 		if( $wpdb->get_var( "SHOW TABLES LIKE '" . $plugin_table . "';" ) != $plugin_table ) {
 
@@ -43,17 +43,17 @@ class Check_my_Website_Activator {
 				$charset_collate .= " COLLATE $wpdb->collate";
  
 			// Define plugin table.
-            $sql = "CREATE TABLE " . $plugin_table . " (
+            		$sql = "CREATE TABLE " . $plugin_table . " (
 			     `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 			     `api_key` varchar(50) NOT NULL,
 			     `api_time` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			     `api_data` longtext NOT NULL,
 			     PRIMARY KEY (`id`)
-	           ) $charset_collate;";
+		           ) $charset_collate;";
             
-            // Create plugin table.
-            require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
-            dbDelta( $sql );
+			// Create plugin table.
+           		require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
+            		dbDelta( $sql );
 
 		}
         
