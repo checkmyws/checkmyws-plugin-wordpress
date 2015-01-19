@@ -15,8 +15,4 @@
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 
-<pre>
-<?php
-print_r( $api->get_api_data() );
-?>
-</pre>
+Hello Will !

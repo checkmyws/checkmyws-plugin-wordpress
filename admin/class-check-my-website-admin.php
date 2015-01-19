@@ -384,11 +384,11 @@ function phonenumber() {
 
 		$options = get_option( 'check_my_website_settings' );
 
-		$values = array( 'Classic', 'Light', 'Dark' );
+		$styles = array( 'check-my-website-classic' => 'Classic', 'check-my-website-light' => 'Light', 'check-my-website-dark' => 'Dark' );
 
                 echo '<select name="check_my_website_settings[style]">';
-                        foreach ( $values as $value ) {
-                                echo '<option value="' .  $value . '" ' . selected( $options['style'], $value ) . '>' . $value . '</option>';
+                        foreach ( $styles as $key => $value ) {
+                                echo '<option value="' .  $key . '" ' . selected( $options['style'], $key ) . '>' . $value . '</option>';
                         }
                 echo '</select>';
 
@@ -415,11 +415,11 @@ function phonenumber() {
 
 		$options = get_option( 'check_my_website_settings' );
 
-                $values = array( 'Millisecond', 'Second' );
+                $units = array( 'ms' => 'Millisecond', 's' => 'Second' );
 
                 echo '<select name="check_my_website_settings[unit]">';
-                        foreach ( $values as $value ) {
-                                echo '<option value="' .  $value . '" ' . selected( $options['unit'], $value ) . '>' . $value . '</option>';
+                        foreach ( $units as $key => $value ) {
+                                echo '<option value="' .  $key . '" ' . selected( $options['unit'], $key ) . '>' . $value . '</option>';
                         }
                 echo '</select>';
 
@@ -486,7 +486,7 @@ function phonenumber() {
         }
 
 	/**
-         * Display the Check my Website Settings Page for the dashboard.
+         * Display the Check my Website Settings page for the dashboard.
          *
          * @since    1.0.0
          */
@@ -514,7 +514,9 @@ function phonenumber() {
                         $current = $_GET['tab'];
                 };
 
-		include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-settings.php' );
+		include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-header.php' );
+                include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-settings.php' );
+                include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-footer.php' );
 
         }
 
@@ -541,13 +543,29 @@ function phonenumber() {
 
 		$current = 'overview';
 
-		$tabs = array( 'overview' => 'Overview', 'logs' => 'Logs', 'metrics' => 'Metrics', 'timeline' => 'Timeline', 'yslow' => 'YSlow', 'settings' => 'Settings' );
+		$tabs = array( 'overview' => 'Overview', 'logs' => 'Logs', 'metrics' => 'Metrics', 'settings' => 'Settings' );
 
 		if ( isset ( $_GET['tab'] ) ) {
 			$current = $_GET['tab']; 
 		};
 
+		// Load default parameters.
+		$options = get_option( 'check_my_website_settings' );
+                $default_api_key = $options['key'];
+		$default_style = $options['style'];
+		$default_unit = $options['unit'];
+
+		// Load api data.
+		if ( isset( $default_api_key ) ) { 
+                	$api = new Check_my_Website_Api( $default_api_key );
+			$data = cmws_data( $api->get_api_data() );
+		} else {
+			$data = NULL;
+		}	
+		
+		include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-header.php' );
                 include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-dashboard.php' );
+		include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-footer.php' );
 
         }
 
@@ -570,8 +588,24 @@ function phonenumber() {
                  * class.
                  */
 
-                include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-widget.php' );
+		// Load default parameters.
+                $options = get_option( 'check_my_website_settings' );
+                $default_api_key = $options['key'];
+                $default_style = $options['style'];
+                $default_unit = $options['unit'];
+
+                // Load api data.
+                if ( isset( $default_api_key ) ) {
+                        $api = new Check_my_Website_Api( $default_api_key );
+                        $data = cmws_data( $api->get_api_data() );
+                } else {
+                        $data = NULL;
+                }
+
+                include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-dashwidget.php' );
 
         }
 
 }
+
+?>

@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * This action is documented in includes/class-plugin-name-activator.php
  */
 function activate_check_my_website() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-check-my-website-activator.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/classes/class-check-my-website-activator.php';
 	Check_my_Website_Activator::activate();
 }
 
@@ -44,7 +44,7 @@ function activate_check_my_website() {
  * This action is documented in includes/class-plugin-name-deactivator.php
  */
 function deactivate_check_my_website() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-check-my-website-deactivator.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/classes/class-check-my-website-deactivator.php';
 	Check_my_Website_Deactivator::deactivate();
 }
 
@@ -55,7 +55,7 @@ register_deactivation_hook( __FILE__, 'deactivate_check_my_website' );
  * The core plugin class that is used to define internationalization,
  * dashboard-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-check-my-website.php';
+require plugin_dir_path( __FILE__ ) . 'includes/classes/class-check-my-website.php';
 
 /**
  * Begins execution of the plugin.
@@ -73,3 +73,5 @@ function run_check_my_website() {
 
 }
 run_check_my_website();
+
+?>
