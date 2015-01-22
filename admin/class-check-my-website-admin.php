@@ -96,7 +96,11 @@ class Check_my_Website_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/check-my-website-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name . '-admin', plugin_dir_url( __FILE__ ) . 'js/check-my-website-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name . '-flot', plugin_dir_url( __FILE__ ) . 'js/flot/jquery.flot.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name . '-flot-time', plugin_dir_url( __FILE__ ) . 'js/flot/jquery.flot.time.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name . '-flot-threshold', plugin_dir_url( __FILE__ ) . 'js/flot/jquery.flot.threshold.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name . '-flot-tooltip', plugin_dir_url( __FILE__ ) . 'js/flot/jquery.flot.tooltip.js', array( 'jquery' ), $this->version, false );
 
 	}
 

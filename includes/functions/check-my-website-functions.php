@@ -140,27 +140,27 @@ function cmws_state( $type, $code ) {
 	switch ( $type ) {
 
 		case 'poller':
-			$states = array( '-3' => 'Disable', '-2' => 'Unschedule', '-1' => 'Pending', '0' => 'Ok', '1' => 'Warning', '2' => 'Down', '3' => 'Unknown' );
+			$states = array( '-3' => __( 'Disable', 'check-my-website' ), '-2' => __( 'Unschedule', 'check-my-website' ), '-1' => __( 'Pending', 'check-my-website' ), '0' => __( 'Ok', 'check-my-website' ), '1' => __( 'Warning', 'check-my-website' ), '2' => __( 'Down', 'check-my-website' ), '3' => __( 'Unknown', 'check-my-website' ) );
 
         		if ( $states[$code] ) {
                 		$state = $states[$code];
         		} else {
-                		$state = 'Unknown';
+                		$state = __( 'Unknown', 'check-my-website' );
         		}
 		break;
 
 		case 'log':
-			$states = array( '0' => 'Ok', '1' => 'Warning', '2' => 'Critical' );
+			$states = array( '0' => __( 'Ok', 'check-my-website' ), '1' => __( 'Warning', 'check-my-website' ), '2' => __( 'Critical', 'check-my-website' ) );
 
 			if ( $states[$code] ) {
         			$state = $states[$code];
        			} else {
-        			$state = 'Unknown';
+        			$state = __( 'Unknown', 'check-my-website' );
         		}
 		break;
 
 		default:
-			$state = 'Unknown';
+			$state = __( 'Unknown', 'check-my-website' );
 
 	}
 
@@ -203,12 +203,12 @@ function cmws_label( $type, $code ) {
 
 function cmws_message( $code ) {
 
-        $messages = array( '3' => 'Internal error', '4' => 'Job Timeout', '5' => 'Socket Unreachable', '6' => 'Pattern not found', '7' => 'HTTP Code Missmatch', '8' => 'Time limit Reached', '9' => 'TCP Socket Unreachable', '10' => 'HTTP Connection Error', '11' => 'HTTP Read Timeout', '12' => 'HTTP Connect Timeout', '13' => 'HTTP Socket Error', '14' => 'HTTP SSL handshake failed', '15' => 'DNS Socket error', '16' => 'DNS Timeout', '17' => 'DNS Error', '19' => 'Invalid URI scheme', '20' => 'Socket Timeout', '21' => 'Pattern found', '22' => 'Max retries has been reached', '30' => 'Email notification => {0}', '31' => 'SMS notification => {0}', '520' => '520 Web server is returning an unknown error', '80' => 'Invoice <a href=\'/api/invoices/pdf/{0}\' target=\'_blank\'>{0}</a> was created', '81' => 'Invoice <a href=\'/api/invoices/pdf/{0}\' target=\'_blank\'>{0}</a>, payment succeeded', '82' => 'Invoice <a href=\'/api/invoices/pdf/{0}\' target=\'_blank\'>{0}</a>, payment failed', '83' => 'Subscribed to {1} {2} plan with {3} URL', '84' => 'Subscription will be canceled at end of current period', '85' => 'Subscription was canceled', '86' => 'Subscription was updated', '90' => 'Addons => {1} SMS was added', '100' => '100 Continue', '101' => '101 Switching Protocols', '102' => '102 Processing', '118' => '118 Connection timed out', '200' => '200 Ok', '201' => '201 Created', '202' => '202 Accepted', '203' => '203 Non-Authoritative Information', '204' => '204 No Content', '205' => '205 Reset Content', '206' => '206 Partial Content', '207' => '207 Multi-Status', '210' => '210 Content Different', '226' => '226 IM Used', '300' => '300 Multiple Choices', '301' => '301 Moved Permanently', '302' => '302 Moved Temporarily', '303' => '303 See Other', '304' => '304 Not Modified', '305' => '305 Use Proxy', '307' => '307 Temporary Redirect', '308' => '308 Permanent Redirect', '310' => '310 Too many Redirects', '400' => '400 Bad Request', '401' => '401 Unauthorized', '402' => '402 Payment Required', '403' => '403 Forbidden', '404' => '404 Not Found', '405' => '405 Method Not Allowed', '406' => '406 Not Acceptable', '407' => '407 Proxy Authentication', '408' => '408 Request Time-out', '409' => '409 Conflict', '410' => '410 Gone', '411' => '411 Length Required', '412' => '412 Precondition Failed', '413' => '413 Request Entity Too Large', '414' => '414 Request-URI Too Long', '415' => '415 Unsupported Media Type', '416' => '416 Requested range unsatisfiable', '417' => '417 Expectation failed', '418' => '418 I\u2019m a teapot', '422' => '422 Unprocessable entity', '423' => '423 Locked', '424' => '424 Method failure', '425' => '425 Unordered Collection', '426' => '426 Upgrade Required', '428' => '428 Precondition Required', '429' => '429 Too Many Requests', '431' => '431 Request Header Fields Too Large', '501' => '501 Not Implemented', '449' => '449 Retry With', '450' => '450 Blocked by Windows Parental Controls', '456' => '456 Unrecoverable Error', '510' => '510 Not extended', '509' => '509 Bandwidth Limit Exceeded', '499' => '499 Client has closed connection', '500' => '500 Internal Server Error', '-2' => 'Unschedule', '502' => '502 Bad Gateway ou Proxy Error', '503' => '503 Service Unavailable', '504' => '504 Gateway Time-out', '505' => '505 HTTP Version not supported', '506' => '506 Variant also negociate', '507' => '507 Insufficient storage', '508' => '508 Loop detected', '-3' => 'Disable', '-1' => 'Pending' );
+        $messages = array( '3' => __( 'Internal error', 'check-my-website' ), '4' => __( 'Job Timeout', 'check-my-website' ), '5' => __( 'Socket Unreachable', 'check-my-website' ), '6' => __( 'Pattern not found', 'check-my-website' ), '7' => __( 'HTTP Code Missmatch', 'check-my-website' ), '8' => __( 'Time limit Reached', 'check-my-website' ), '9' => __( 'TCP Socket Unreachable', 'check-my-website' ), '10' => __( 'HTTP Connection Error', 'check-my-website' ), '11' => __( 'HTTP Read Timeout', 'check-my-website' ), '12' => __( 'HTTP Connect Timeout', 'check-my-website' ), '13' => __( 'HTTP Socket Error', 'check-my-website' ), '14' => __( 'HTTP SSL handshake failed', 'check-my-website' ), '15' => __( 'DNS Socket error', 'check-my-website' ), '16' => __( 'DNS Timeout', 'check-my-website' ), '17' => __( 'DNS Error', 'check-my-website' ), '19' => __( 'Invalid URI scheme', 'check-my-website' ), '20' => __( 'Socket Timeout', 'check-my-website' ), '21' => __( 'Pattern found', 'check-my-website' ), '22' => __( 'Max retries has been reached', 'check-my-website' ), '30' => __( 'Email notification => {0}', 'check-my-website' ), '31' => __( 'SMS notification => {0}', 'check-my-website' ), '520' => __( '520 Web server is returning an unknown error', 'check-my-website' ), '80' => __( 'Invoice <a href=\'/api/invoices/pdf/{0}\' target=\'_blank\'>{0}</a> was created', 'check-my-website' ), '81' => __( 'Invoice <a href=\'/api/invoices/pdf/{0}\' target=\'_blank\'>{0}</a>, payment succeeded', 'check-my-website' ), '82' => __( 'Invoice <a href=\'/api/invoices/pdf/{0}\' target=\'_blank\'>{0}</a>, payment failed', 'check-my-website' ), '83' => __( 'Subscribed to {1} {2} plan with {3} URL', 'check-my-website' ), '84' => __( 'Subscription will be canceled at end of current period', 'check-my-website' ), '85' => __( 'Subscription was canceled', 'check-my-website' ), '86' => __( 'Subscription was updated', 'check-my-website' ), '90' => __( 'Addons => {1} SMS was added', 'check-my-website' ), '100' => __( '100 Continue', 'check-my-website' ), '101' => __( '101 Switching Protocols', 'check-my-website' ), '102' => __( '102 Processing', 'check-my-website' ), '118' => __( '118 Connection timed out', 'check-my-website' ), '200' => __( '200 Ok', 'check-my-website' ), '201' => __( '201 Created', 'check-my-website' ), '202' => __( '202 Accepted', 'check-my-website' ), '203' => __( '203 Non-Authoritative Information', 'check-my-website' ), '204' => __( '204 No Content', 'check-my-website' ), '205' => __( '205 Reset Content', 'check-my-website' ), '206' => __( '206 Partial Content', 'check-my-website' ), '207' => __( '207 Multi-Status', 'check-my-website' ), '210' => __( '210 Content Different', 'check-my-website' ), '226' => __( '226 IM Used', 'check-my-website' ), '300' => __( '300 Multiple Choices', 'check-my-website' ), '301' => __( '301 Moved Permanently', 'check-my-website' ), '302' => __( '302 Moved Temporarily', 'check-my-website' ), '303' => __( '303 See Other', 'check-my-website' ), '304' => __( '304 Not Modified', 'check-my-website' ), '305' => __( '305 Use Proxy', 'check-my-website' ), '307' => __( '307 Temporary Redirect', 'check-my-website' ), '308' => __( '308 Permanent Redirect', 'check-my-website' ), '310' => __( '310 Too many Redirects', 'check-my-website' ), '400' => __( '400 Bad Request', 'check-my-website' ), '401' => __( '401 Unauthorized', 'check-my-website' ), '402' => __( '402 Payment Required', 'check-my-website' ), '403' => __( '403 Forbidden', 'check-my-website' ), '404' => __( '404 Not Found', 'check-my-website' ), '405' => __( '405 Method Not Allowed', 'check-my-website' ), '406' => __( '406 Not Acceptable', 'check-my-website' ), '407' => __( '407 Proxy Authentication', 'check-my-website' ), '408' => __( '408 Request Time-out', 'check-my-website' ), '409' => __( '409 Conflict', 'check-my-website' ), '410' => __( '410 Gone', 'check-my-website' ), '411' => __( '411 Length Required', 'check-my-website' ), '412' => __( '412 Precondition Failed', 'check-my-website' ), '413' => __( '413 Request Entity Too Large', 'check-my-website' ), '414' => __( '414 Request-URI Too Long', 'check-my-website' ), '415' => __( '415 Unsupported Media Type', 'check-my-website' ), '416' => __( '416 Requested range unsatisfiable', 'check-my-website' ), '417' => __( '417 Expectation failed', 'check-my-website' ), '418' => __( '418 I\u2019m a teapot', 'check-my-website' ), '422' => __( '422 Unprocessable entity', 'check-my-website' ), '423' => __( '423 Locked', 'check-my-website' ), '424' => __( '424 Method failure', 'check-my-website' ), '425' => __( '425 Unordered Collection', 'check-my-website' ), '426' => __( '426 Upgrade Required', 'check-my-website' ), '428' => __( '428 Precondition Required', 'check-my-website' ), '429' => __( '429 Too Many Requests', 'check-my-website' ), '431' => __( '431 Request Header Fields Too Large', 'check-my-website' ), '501' => __( '501 Not Implemented', 'check-my-website' ), '449' => __( '449 Retry With', 'check-my-website' ), '450' => __( '450 Blocked by Windows Parental Controls', 'check-my-website' ), '456' => __( '456 Unrecoverable Error', 'check-my-website' ), '510' => __( '510 Not extended', 'check-my-website' ), '509' => __( '509 Bandwidth Limit Exceeded', 'check-my-website' ), '499' => __( '499 Client has closed connection', 'check-my-website' ), '500' => __( '500 Internal Server Error', 'check-my-website' ), '-2' => __( 'Unschedule', 'check-my-website' ), '502' => __( '502 Bad Gateway ou Proxy Error', 'check-my-website' ), '503' => __( '503 Service Unavailable', 'check-my-website' ), '504' => __( '504 Gateway Time-out', 'check-my-website' ), '505' => __( '505 HTTP Version not supported', 'check-my-website' ), '506' => __( '506 Variant also negociate', 'check-my-website' ), '507' => __( '507 Insufficient storage', 'check-my-website' ), '508' => __( '508 Loop detected', 'check-my-website' ), '-3' => __( 'Disable', 'check-my-website' ), '-1' => __( 'Pending', 'check-my-website' ) );
 
         if ( $messages[$code] ) {
                 $message = $messages[$code];
         } else {
-                $message = 'Undefined';
+                $message = __( 'Undefined', 'check-my-website' );
         }
 
         return $message;
@@ -231,7 +231,7 @@ function cmws_infos( $data ) {
 
 	// Define dns expiration.
 	if ( isset( $data['status']['metas']['dns_expiration_timestamp'] ) ) {
-		$dns_expiration['name'] = 'DNS Expiration';
+		$dns_expiration['name'] = __( 'DNS Expiration', 'check-my-website' );
        		$dns_expiration['data'] = cmws_date( $data['status']['metas']['dns_expiration_timestamp'], 'date' );
 		$dns_expiration['label'] = 'info';
 	} else {
@@ -240,7 +240,7 @@ function cmws_infos( $data ) {
 
 	// Define ssl cert expiration.
         if ( isset( $data['status']['metas']['ssl_cert_expiration_timestamp'] ) ) {
-                $ssl_expiration['name'] = 'SSL Expiration';
+                $ssl_expiration['name'] = __( 'SSL Expiration', 'check-my-website' );
                 $ssl_expiration['data'] = cmws_date( $data['status']['metas']['ssl_cert_expiration_timestamp'], 'date' );
                 $ssl_expiration['label'] = 'info';
         } else {
@@ -249,7 +249,7 @@ function cmws_infos( $data ) {
 
 	// Define requests.
 	if ( isset( $data['status']['metas']['requests'] ) ) {
-		$requests['name'] = 'Number of HTTP requests';
+		$requests['name'] = __( 'Number of HTTP requests', 'check-my-website' );
         	$requests['data'] = $data['status']['metas']['requests'];
 		if ( $data['status']['metas']['requests'] >= 100 ) {
                 	$requests['label'] = 'danger';
@@ -264,7 +264,7 @@ function cmws_infos( $data ) {
 
 	// Define not found.
         if ( isset( $data['status']['metas']['notFound'] ) ) {
-		$not_found['name'] = 'Number of HTTP 404 responses';
+		$not_found['name'] = __( 'Number of HTTP 404 responses', 'check-my-website' );
         	$not_found['data'] = $data['status']['metas']['notFound'];
 		if ( $data['status']['metas']['notFound'] >= 1 ) {
                		$not_found['label'] = 'danger';
@@ -277,7 +277,7 @@ function cmws_infos( $data ) {
 
 	// Define js errors.
         if ( isset( $data['status']['metas']['jsErrors'] ) ) {
-		$js_errors['name'] = 'Number of JavaScript errors';
+		$js_errors['name'] = __( 'Number of JavaScript errors', 'check-my-website' );
         	$js_errors['data'] = $data['status']['metas']['jsErrors'];
 		if ( $data['status']['metas']['jsErrors'] >= 1 ) {
                 	$js_errors['label'] = 'warning';
@@ -290,7 +290,7 @@ function cmws_infos( $data ) {
 
 	// Define redirects.
         if ( isset( $data['status']['metas']['redirects'] ) ) {
-		$redirects['name'] = 'Number of HTTP redirects (301 or 302)';
+		$redirects['name'] = __( 'Number of HTTP redirects (301 or 302)', 'check-my-website' );
         	$redirects['data'] = $data['status']['metas']['redirects'];
 		if ( $data['status']['metas']['redirects'] >= 2 ) {
 			$redirects['label'] = 'warning';
@@ -318,11 +318,12 @@ function cmws_global( $data ) {
         $label = cmws_label( 'poller', $data['status']['state'] );
 
 	// Define last date and time.
-        $last_date = cmws_date( $data['status']['laststatechange_bin'], 'full' );
-	$last_time = cmws_date( $data['status']['laststatechange_bin'], 'time' );
+        $last_change_date = cmws_date( $data['status']['laststatechange_bin'], 'full' );
+	$last_change_time = cmws_date( $data['status']['laststatechange_bin'], 'time' );
         $state_duration = cmws_date_diff( $data['status']['laststatechange_bin'] );
 
 	// Define last time response.
+	$last_response_time = cmws_date( $data['status']['metas']['lastcheck'], 'time' );
 	$last_key = key( array_slice( $data['day']['series']['checks.' . $id . '.httptime']['data'], -1, 1, TRUE ) );
         $last_time_response = round( $data['day']['series']['checks.' . $id . '.httptime']['data'][$last_key][1] );
 
@@ -341,7 +342,7 @@ function cmws_global( $data ) {
 	$last_key = key( array_slice( $data['week']['series']['checks.' . $id . '.state.all']['data'], -1, 1, TRUE ) );
         $availability = round( $data['week']['series']['checks.' . $id . '.state.all']['data'][$last_key][1], 2 );
 
-        return array( 'url' => $url, 'state' => $state, 'label' => $label, 'last_date' => $last_date, 'last_time' => $last_time, 'state_duration' => $state_duration, 'last_time_response' => $last_time_response, 'average_time' => $average_time, 'availability' => $availability );
+        return array( 'url' => $url, 'state' => $state, 'label' => $label, 'last_change_date' => $last_change_date, 'last_change_time' => $last_change_time, 'state_duration' => $state_duration, 'last_time_response' => $last_time_response, 'last_response_time' => $last_response_time, 'average_time' => $average_time, 'availability' => $availability );
 
 }
 

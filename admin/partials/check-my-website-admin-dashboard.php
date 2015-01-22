@@ -22,7 +22,7 @@
 			<?php 
 
 				if ( !isset( $data ) ) {
-					echo '<span class="cmws-label cmws-label-danger">API key parameter is required to this plugin to work. Please go to Settings page to set it.</span><br/><br/>';
+					echo '<span class="cmws-label cmws-label-danger">' . __( 'API key parameter is required to this plugin to work. Please go to Settings page to set it.', 'check-my-website' ) . '</span><br/><br/>';
 				}
 
 			?>
@@ -50,6 +50,8 @@
 
 			if ( $pagenow == 'index.php' && $_GET['page'] == 'check-my-website' ){
 
+				echo '<div id="cmws-view">';
+
    				if ( isset ( $_GET['tab'] ) ) $tab = $_GET['tab'];
    				else $tab = 'overview';
 
@@ -62,13 +64,21 @@
 
       					case 'logs' :
 
+						echo '<div id="cmws-view-logs">';
+
 						include( plugin_dir_path( __FILE__ ) . 'check-my-website-admin-logs.php' );
+
+						echo '</div>';
 
       						break;
 
       					case 'metrics' :
 
+						echo '<div id="cmws-view-metrics">';
+
 						include( plugin_dir_path( __FILE__ ) . 'check-my-website-admin-metrics.php' );
+
+						echo '</div>';
 
 	      					break;
 
@@ -95,6 +105,8 @@
 	   			};
 
 			};
+
+				echo '</div>';
 
 			?>
 

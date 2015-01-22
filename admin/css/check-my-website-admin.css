@@ -3,6 +3,23 @@
  * included in this file.
  */
 
+/* Chart */
+#flotTip {
+	color: #fff;
+	background-color: #000;
+	z-index: 1040;
+	padding: 0.4em 0.6em;
+	border-radius: 0.5em;
+	font-size: 0.8em;
+	border: '1px solid #111';
+	display: none;
+	white-space: nowrap;
+	opacity: 0.80;
+}
+#flotTip hr {
+	margin-bottom: 3px;
+}
+
 .cmws-settings-page {
 }
 
@@ -253,6 +270,10 @@
         border-color: rgba(0, 0, 0, 0);
 }
 
+.check-my-website-classic .cmws-list-group-item:first-child {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
 .check-my-website-classic .cmws-panel {
         border: 1px solid transparent;
         border-radius: 4px;
@@ -262,7 +283,7 @@
 }
 
 .check-my-website-classic .cmws-panel-default > .cmws-panel-heading {
-        border-color: rgba(0, 0, 0, 0);
+        border-color: rgba(0, 0, 0, 0.2);
 }
 
 /* Check my Website Dark Style */
@@ -282,13 +303,13 @@
 }
 
 .check-my-website-dark .cmws-color {
-        background-color: #3a3f44;
+        background-color: #333;
 	border-color: rgba(0, 0, 0, 0.6);
         color: #f2f2f2;
 }
 
 .check-my-website-dark .cmws-color-alt {
-        background-color: #3e444c;
+        background-color: #444;
 	border-color: rgba(0, 0, 0, 0.6);
         color: #f2f2f2;
 }

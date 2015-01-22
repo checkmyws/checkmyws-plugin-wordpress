@@ -15,28 +15,16 @@
 
 <!-- Metrics starts -->
 
-<script type="text/javascript">
-jQuery(document).ready(function() {
-	jQuery.ajax({
-        	type: "GET",
-        	dataType: "json",
-        	url: "/wp-content/plugins/check-my-website/includes/api/check-my-website-metrics.php"
-	})
-	.done(function(data) {
-        	console.log("Data:", data['day']['series']['checks.624e853d-90f3-4bf9-8417-c78157ed38e4.httptime']['data'][0])
-        	jQuery.plot("#placeholder", data['day']['series']['checks.624e853d-90f3-4bf9-8417-c78157ed38e4.httptime']['data'][0]);
-	})
-});
-</script>
-
 <div class="cmws-table">
 	<div class="cmws-row">
 		<div class="cmws-column cmws-column-6">
 			<div class="cmws-cell">
                 		<div class="cmws-panel cmws-panel-default cmws-color">
-                        		<div class="cmws-panel-heading cmws-color-alt">Response time</div>
-                                	<div class="cmws-panel-body" onload="alert('Bonjour !');" onunload="alert('Au revoir !');">
-						<div id="placeholder" style="height:300px;"></div>
+                        		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-chart-bar"></span> <?php _e( 'Response time', 'check-my-website' ); ?></div>
+                                	<div class="cmws-panel-body">
+						<div id="cmws-chart-httptime" style="width:100%;height:300px;">
+							<span><?php _e( 'No metrics', 'check-my-website' ); ?></span>
+						</div>
         	              	        </div>
 				</div>
 			</div>
@@ -44,22 +32,14 @@ jQuery(document).ready(function() {
 		<div class="cmws-column cmws-column-6">
         	        <div class="cmws-cell">
                 	        <div class="cmws-panel cmws-panel-default cmws-color">
-                        	        <div class="cmws-panel-heading cmws-color-alt">Availability</div>
+                        	        <div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-chart-bar"></span> <?php _e( 'Availability', 'check-my-website' ); ?></div>
                                 	<div class="cmws-panel-body">
-                                        	<span>No metrics</span>
+						<div id="cmws-chart-state" style="width:100%;height:300px;">
+							<span><?php _e( 'No metrics', 'check-my-website' ); ?></span>
+						</div>
                         	  	</div>
                     	    	</div>
               		</div>
-        	</div>
-		<div class="cmws-column cmws-column-6">
-                	<div class="cmws-cell">
-                        	<div class="cmws-panel cmws-panel-default cmws-color">
-                                	<div class="cmws-panel-heading cmws-color-alt">Page load time</div>
-                               		<div class="cmws-panel-body">
-                                        	<span>No metrics</span>
-                                	</div>
-                      		</div>
-                	</div>
         	</div>
 	</div>
 </div>

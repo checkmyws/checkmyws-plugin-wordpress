@@ -19,7 +19,7 @@
 	<div class="cmws-row">
 		<div class="cmws-cell">
                		<div class="cmws-panel cmws-panel-default cmws-color">
-                       		<div class="cmws-panel-heading cmws-color-alt">Messages</div>
+                       		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-list-view"></span> <?php _e( 'Events', 'check-my-website' ); ?></div>
                         	<div class="cmws-panel-body">
 					<table class="cmws-table cmws-table-striped" cmws-font>
                                         	<tbody>
@@ -35,7 +35,7 @@
                                                         		echo '</tr>';
                                                 		}
 							} else {
-                                        			echo '<span>No messages</span>';
+                                        			echo '<span>' . __( 'No messages', 'check-my-website' ) . '</span>';
                                         		}
 						?>
 
