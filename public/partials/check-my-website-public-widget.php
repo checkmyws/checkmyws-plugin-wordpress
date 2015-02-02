@@ -1,148 +1,202 @@
 <?php
-
 /**
- * Provide a public-facing view for the plugin
+ * Provide a public-facing view for the widget plugin.
  *
- * This file is used to markup the public-facing aspects of the plugin.
+ * This file is used to markup the public-facing aspects
+ * of the widget plugin.
  *
- * @link       http://example.com
+ * @link       https://checkmy.ws
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/public/partials
+ * @package    check-my-website
+ * @subpackage check-my-website/public/partials
+ * @author     Check my Website by NOVATEEK <contact@checkmy.ws>
  */
 ?>
 
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->
-
-<div class="<?php echo $style; ?>">
+<!-- Widget starts -->
 
 <?php
-
-	// Display widget title if title is entered.
+	/**
+         * Display widget title if title field is filled.
+         *
+         * @since    1.0.0
+         */
 	if ( $title ) {
 
 		echo $before_title . $title . $after_title;
 
 	}
 
-	// Display text if text is entered/
+	/**
+         * Display text if text field is filled.
+         *
+         * @since    1.0.0
+         */
 	if ( $text ) {
 
 		echo $text . '<br/>';
 
 	}
 
-	// Display url if url is checked.
+	/**
+         * Display url if url option is checked.
+         *
+         * @since    1.0.0
+         */
 	if ( $url == true ) {
 
 		$urlFilter = array( 'http://', 'https://' );
 		$urlReplace = '';
-
 ?>
          
 		<div class="cmws-panel cmws-panel-default cmws-panel-widget cmws-color">
 			<div class="cmws-panel-body cmws-font">
-				<span class="cmws-label cmws-label-success"><?php echo state( $data['status']['state'] ); ?></span> <a class="cmws-link" target="_blank" href="<?php echo $data['status']['url']; ?>"><?php echo str_replace( $urlFilter, $urlReplace, $data['status']['url'] ); ?></a>
+
+			<?php
+				if ( $data['global'] ) {
+                                	echo '<span class="cmws-label cmws-label-' . $data['global']['label'] . '">' . $data['global']['state'] . '</span> <a class="cmws-link" target="_blank" href="' . $data['global']['url'] . '">' . str_replace( $urlFilter, $urlReplace, $data['global']['url'] ) . '</a>';
+                                } else {
+                                	echo '<span class="cmws-danger">' . __( 'No url', 'check-mywebsite' ) . '</span>';
+                                }
+                        ?>
+
 			</div>
 		</div>
 
 <?php
-
 	}
 
-	// Display availability on 24h if availability is checked
+	/**
+         * Display availability on 24h if availability option is checked.
+         *
+         * @since    1.0.0
+         */
 	if ( $availability == true ) {
-
-		$lastKey = key( array_slice( $data['week']['series']['checks.' . $api->get_api_key() . '.state.all']['data'], -1, 1, TRUE ) );
-
 ?>
+		<div class="cmws-panel cmws-panel-default cmws-panel-widget cmws-color">
+			<div class="cmws-panel-heading cmws-color-alt"><?php _e( 'Availability (24h)', 'check-my-website' ); ?></div>
+                        <div class="cmws-panel-body">
 
-		<div class="cmws-list-group">
-                	<span class="cmws-list-group-item cmws-color-alt cmws-font-alt">Availability (24h)</span>
-			<span class="cmws-list-group-item cmws-color cmws-font"><span class="cmws-widget-font-x2"><?php echo $data['week']['series']['checks.' . $api->get_api_key() . '.state.all']['data'][$lastKey][1]; ?> %</span></span>
-                </div>
+                        <?php
+	                	if ( $data['global'] ) {
+					echo '<span class="cmws-widget-font-x2">' . $data['global']['availability'] . '<span class="cmws-widget-font"> %</span></span><br/><span class="cmws-widget-font cmws-info">a day</span>';
+				} else {
+                                	echo '<span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
+                                }
+			?>
 
-<?php
-
-	}
-
-	// Display last time response (average) if checkbox is checked
-	if ( $check == true ) {
-
-		$avg = array_sum( $data['status']['lastvalues']['httptime'] ) / count( $data['status']['lastvalues']['httptime'] );
-
-?>
-
-		<div class="cmws-list-group">
-			<span class="cmws-list-group-item cmws-color-alt cmws-font-alt">Last response time</span>
-			<span class="cmws-list-group-item cmws-color cmws-font"><span class="cmws-widget-font-x2"><?php echo convert( round( $avg ), $unit ) . ' ' . $unit; ?></span></span>
+			</div>
 		</div>
 
 <?php
-
 	}
 
-	// Display average time if checkbox is checked
-        if ( $average == true ) {
-
-                $avg = array_sum( $data['status']['lastvalues']['httptime'] ) / count( $data['status']['lastvalues']['httptime'] );
-
+	/**
+         * Display latest time response if latest option is checked.
+         *
+         * @since    1.0.0
+         */
+	if ( $latest == true ) {
 ?>
 
-                <div class="cmws-list-group">
-                        <span class="cmws-list-group-item cmws-color-alt cmws-font-alt">Average time (24h)</span>
-                        <span class="cmws-list-group-item cmws-color cmws-font"><span class="cmws-widget-font-x2"><?php echo convert( round( $average_time ), $unit ) . ' ' . $unit; ?></span></span>
-                </div>
+		<div class="cmws-panel cmws-panel-default cmws-panel-widget cmws-color">
+			<div class="cmws-panel-heading cmws-color-alt"> <?php _e( 'Lastest time response', 'check-my-website' ); ?></div>
+			<div class="cmws-panel-body">
+
+                        <?php
+				if ( $data['global'] ) {
+                                	echo '<span class="cmws-widget-font-x2">' . cmws_convert( $data['global']['last_time_response'], $unit ) . '<span class="cmws-widget-font"> ' . $unit . '</span></span><br/><span class="cmws-widget-font cmws-info">' . $data['global']['last_response_time'] . '</span>';
+                                } else {
+                                	echo '<span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
+                                }
+			?>
+
+                       </div>
+		</div>
 
 <?php
+	}
 
+	/**
+         * Display average time if average option is checked.
+         *
+         * @since    1.0.0
+         */
+        if ( $average == true ) {
+?>
+
+		<div class="cmws-panel cmws-panel-default cmws-panel-widget cmws-color">
+			<div class="cmws-panel-heading cmws-color-alt"><?php _e( 'Average time (24h)', 'check-my-website' ); ?></div>
+                	<div class="cmws-panel-body">
+
+                        <?php
+				if ( $data['global'] ) {
+                                	echo '<span class="cmws-widget-font-x2">' . cmws_convert( $data['global']['average_time'], $unit ) . '<span class="cmws-widget-font"> ' . $unit . '<span></span>';
+                                } else {
+                                	echo '<span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
+                                }
+			?>
+
+			</div>
+		</div>
+
+<?php
         }
 
-	// Display check location(s) if location is checked
-	if ( $location == true ) {
-
-		$lastCheck = new DateTime();
-                $lastCheck->SetTimestamp( $data['status']['metas']['lastcheck'] );
-
+	/**
+         * Display states/pollers if poller option is checked.
+         *
+         * @since    1.0.0
+         */
+	if ( $poller == true ) {
 ?>
 
                 <div class="cmws-list-group">
-			<span class="cmws-list-group-item cmws-color-alt cmws-font-alt" >States (<?php echo $lastCheck->format( 'H:i:s'); ?>)</span>
+			<span class="cmws-list-group-item cmws-color-alt cmws-font-alt" ><?php _e( 'States', 'check-my-website' ); ?> (<?php echo $data['global']['last_response_time']; ?>)</span>
 
-<?php
+			<?php
+				if ( $data['pollers'] ) {
+					foreach ( $data['pollers'] as $poller => $poller_values ) {
+						echo '<span class="cmws-list-group-item cmws-color cmws-font"><img class="cmws-flag cmws-flag-' . $poller_values['flag'] . '" src="' . plugins_url( '/assets/blank.gif', dirname(__DIR__ )) . '" alt="" /><span class="cmws-label cmws-label-' . $poller_values['label'] . '">' . $poller_values['state'] . '</span> ' . '<span class="cmws-label cmws-label-info cmws-pull-right">' . cmws_convert( $poller_values['time'], $unit ) . $unit . '</span>' . $poller_values['name'] . '<br></span>';
+					}
+				} else {
+					echo '<span class="cmws-list-group-item cmws-color cmws-font cmws-danger">' . __( 'No pollers', 'check-my-website' ) . '</span>';
+				}
+			?>
 
-			foreach ( $data['status']['lastvalues']['httptime'] as $key => $value ) {
-                                echo '<span class="cmws-list-group-item cmws-color cmws-font">' . flag( substr( $key, 0, 2 ) ) . '<span class="cmws-label cmws-label-success">' . state( $data['status']['states'][$key] ) . '</span> ' . '<span class="cmws-label cmws-label-info cmws-pull-right">' . convert( $value, $unit ) . $unit . '</span>' . poller( $key, $style ) . '<br></span>';
-       		        }
-
-?>
-
-                </div>
-
-<?php
-
-	}
-
-	// Display YSlow data if yslow is checked
-	if ( $yslow == true ) {
-
-		$pageLoadTime = convert( $data['status']['metas']['yslow_page_load_time'], $unit );
-                $score = $data['status']['metas']['yslow_score'];
-
-?>
-
-                <div class="cmws-panel cmws-panel-default cmws-panel-widget cmws-color">
-			<div class="cmws-panel-heading cmws-color-alt">YSlow</div>
-			<div class="cmws-panel-body cmws-widget-height cmws-text-center">
-				<span class="cmws-widget-font-x2 cmws-label cmws-label-<?php echo $yslow_data['label']; ?>"><?php echo $yslow_data['grade']; ?></span><br/><br/><span class="widget-font">Score: <?php echo $yslow_data['score']; ?></span>
-			</div>
 		</div>
 
 <?php
-
 	}
 
+	/**
+         * Display performance if yslow option is checked.
+         *
+         * @since    1.0.0
+         */
+	if ( $yslow == true ) {
 ?>
+
+		<div class="cmws-panel cmws-panel-default cmws-panel-widget cmws-color">
+			<div class="cmws-panel-heading cmws-color-alt"><?php _e( 'Performance (YSlow)', 'check-my-website' ); ?></div>
+                	<div class="cmws-panel-body cmws-widget-height cmws-text-center">
+
+                        <?php
+				if ( $data['yslow'] ) {
+                                	echo '<span class="cmws-widget-font-x2 cmws-label cmws-label-' . $data['yslow']['label'] . '">' . $data['yslow']['grade'] . '</span><br/><br/><span class="widget-font">' . __( 'Score:', 'check-my-website' ) . ' ' . $data['yslow']['score'] . '</span>';
+                                } else {
+                                	echo '<span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
+                                }
+			?>
+
+                        </div>
+		</div>
+
+<?php
+	}
+?>
+
+<!-- Widget ends -->
 
 </div>

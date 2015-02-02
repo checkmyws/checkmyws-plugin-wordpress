@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Provide a dashboard view for the plugin.
+ * Provide an header view for the plugin.
  *
  * This file is used to markup the admin aspects of the plugin.
  *

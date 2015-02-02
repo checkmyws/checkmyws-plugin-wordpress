@@ -1,27 +1,16 @@
 <?php
 
 /**
- * Define the internationalization functionality
+ * Define the Check my Website api class.
  *
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link       http://checkmy.ws
+ * @link       https://checkmy.ws
  * @since      1.0.0
  *
  * @package    check-my-website
- * @subpackage check-my-website/includes
- */
-
-/**
- * Define the internationalization functionality.
- *
- * Loads and defines the internationalization files for this plugin
- * so that it is ready for translation.
- *
- * @since      1.0.0
- * @package    check-my-website
- * @subpackage check-my-website/includes
+ * @subpackage check-my-website/includes/classes
  * @author     Check my Website by NOVATEEK <contact@checkmy.ws>
  */
 class Check_my_Website_Api {
@@ -58,7 +47,7 @@ class Check_my_Website_Api {
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct( $key ) {
+	public function __construct( $key = NULL ) {
 
 		// Define api key.
                 $this->api_key = $key;
@@ -70,7 +59,9 @@ class Check_my_Website_Api {
                 $this->api_data = array();
 
 		// Load api.
-		$this->run();
+		if ( ! is_null( $this->api_key ) ) :
+			$this->run();
+		endif;
 
 	}
 
@@ -125,10 +116,16 @@ class Check_my_Website_Api {
         	$data = addslashes( $serialized );
 
                 // Define sql query.
-                $sql = "INSERT INTO " . $plugin_table . " (api_key, api_data) VALUES ('" . $this->api_key . "', '" . $data . "');";
+		$test = "SELECT api_key FROM " . $plugin_table . " WHERE api_key='" . $this->api_key . "';";
+		$insert = "INSERT INTO " . $plugin_table . " (api_key, api_data) VALUES ('" . $this->api_key . "', '" . $data . "');";
+		$update = "UPDATE " . $plugin_table . " SET api_data='" . $data . "' WHERE api_key='" . $this->api_key . "';";
 
-                // Insert data to table.
-                $wpdb->query( $sql );
+                // Insertor update data to table.
+		if ( $wpdb->get_var( $test ) != $this->api_key ) :
+			$wpdb->query( $insert );
+                else :
+			$wpdb->query( $update );
+                endif;
 
         }
 
@@ -147,14 +144,18 @@ class Check_my_Website_Api {
                 $plugin_table = $wpdb->prefix . 'check_my_website';
 
 		// Define sql query.
-		$sql = "SELECT api_data FROM " . $plugin_table . " WHERE api_key='" . $this->api_key . "' ORDER BY api_time DESC LIMIT 1;";
+		$sql = "SELECT api_data FROM " . $plugin_table . " WHERE api_key='" . $this->api_key . "';";
 
 		// Select data from table.
 		$result = $wpdb->get_var( $sql );
 
 		// Format api data to array.
-		$unserialized = stripslashes( $result );
-	        $this->api_data = unserialize( $unserialized );
+		if ( $result ) :
+			$unserialized = stripslashes( $result );
+	        	$this->api_data = unserialize( $unserialized );
+		else :
+			$this->api_data = NULL;
+		endif;
 
         }
 
@@ -165,37 +166,37 @@ class Check_my_Website_Api {
          * @param    string    $domain    The domain that represents the locale of this plugin.
          */
         private function run() {
-                
+               
+		// Load wpdb.
 		global $wpdb;
 
+		// Define plugin table.
                 $plugin_table = $wpdb->prefix . 'check_my_website';
 
+		// Get wordpress local time.
                 $current_time = current_time( 'timestamp' );
 
-		$options = get_option( 'check_my_website_settings' );
-		$interval = $options['interval'] * 60;
+		// Get api interval.
+		$options = get_option( 'cmws_settings' );
+		$interval = $options['api_interval'] * 60;
 
 		// Define sql query.
-                //$sql = "SELECT api_time FROM " . $plugin_table . " WHERE api_key='" . $this->api_key . "' ORDER BY api_time DESC LIMIT 1;";
-		$sql = "SELECT api_time FROM " . $plugin_table . " ORDER BY api_time DESC LIMIT 1;";
+		$sql = "SELECT api_time FROM " . $plugin_table . " WHERE api_key='" . $this->api_key . "';";
 
+		// Get api time for an api key in plugin table.
                 $api_time = $wpdb->get_var( $sql );
 		$api_timestamp = strtotime( $api_time );
 
-		//$api_time2 = $wpdb->get_var( $sql2 );
-		//$api_timestamp2 = strtotime( $api_time2 );
-
+		// Calcul difference time.
 		$difference = $current_time - $api_timestamp;
-		//$difference2 = $current_time - $api_timestamp2;
 
+		// Get api data.
                 if ( $difference <= $interval ) {
                         $this->get_db_data();
-			//echo 'difference : ' . $difference . ' - current : ' . $current_time . ' - format : ' . $format . ' - interval : ' . $interval;
                 } elseif ( $difference > $interval ) {
-			if ( $this->set_db_data() != true ) {
+			if ( $this->set_db_data() != true ) :
 				$this->get_db_data();
-			}
-			//echo 'difference : ' . $difference . ' - current : ' . $current_time . ' - format : ' . $format . ' - interval : ' . $interval;
+			endif;
                 } else {
 			exit();
 		};

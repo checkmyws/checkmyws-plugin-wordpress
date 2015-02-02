@@ -64,7 +64,7 @@
 
 						if ( $data['pollers'] ) {
                                         		foreach ( $data['pollers'] as $poller => $poller_values ) {
-								echo '<span class="cmws-list-group-item cmws-color cmws-font"><img class="cmws-flag cmws-flag-' . $poller_values['flag'] . '" src="' . plugins_url( '/assets/blank.gif', dirname(__DIR__ )) . '" alt="" /><span class="cmws-label cmws-label-' . $poller_values['label'] . '">' . $poller_values['state'] . '</span> ' . '<span class="cmws-label cmws-label-info cmws-pull-right">' . convert( $poller_values['time'], $default_unit ) . $default_unit . '</span>' . $poller_values['name'] . '<br></span>';
+								echo '<span class="cmws-list-group-item cmws-color cmws-font"><img class="cmws-flag cmws-flag-' . $poller_values['flag'] . '" src="' . plugins_url( '/assets/blank.gif', dirname(__DIR__ )) . '" alt="" /><span class="cmws-label cmws-label-' . $poller_values['label'] . '">' . $poller_values['state'] . '</span> ' . '<span class="cmws-label cmws-label-info cmws-pull-right">' . cmws_convert( $poller_values['time'], $default_unit ) . $default_unit . '</span>' . $poller_values['name'] . '<br></span>';
                                         		}
 						} else {
 							echo '<span class="cmws-list-group-item cmws-color cmws-font cmws-danger">' . __( 'No pollers', 'check-my-website' ) . '</span>';
@@ -145,7 +145,7 @@
 						<?php
 
                                                         if ( $data['global'] ) {
-                                                                echo '<span class="cmws-widget-font-x3">' . convert( $data['global']['last_time_response'], $default_unit ) . '<span class="cmws-widget-font"> ' . $default_unit . '</span></span><br/><span class="cmws-widget-font cmws-info">' . $data['global']['last_response_time'] . '</span>';
+                                                                echo '<span class="cmws-widget-font-x3">' . cmws_convert( $data['global']['last_time_response'], $default_unit ) . '<span class="cmws-widget-font"> ' . $default_unit . '</span></span><br/><span class="cmws-widget-font cmws-info">' . $data['global']['last_response_time'] . '</span>';
                                                         } else {
                                                                 echo '<span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
                                                         }
@@ -165,7 +165,7 @@
 						<?php
 
                                                         if ( $data['global'] ) {
-                                                                echo '<span class="cmws-widget-font-x3">' . convert( $data['global']['average_time'], $default_unit ) . '<span class="cmws-widget-font"> ' . $default_unit . '<span></span>';
+                                                                echo '<span class="cmws-widget-font-x3">' . cmws_convert( $data['global']['average_time'], $default_unit ) . '<span class="cmws-widget-font"> ' . $default_unit . '<span></span>';
                                                         } else {
                                                                 echo '<span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
                                                         }

@@ -1,37 +1,32 @@
 <?php
 
 /**
- * Fired during plugin activation
- *
- * @link       http://checkmy.ws
- * @since      1.0.0
- *
- * @package    check-my-website
- * @subpackage check-my-website/includes
- */
-
-/**
  * Fired during plugin activation.
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
+ * @link       https://checkmy.ws
  * @since      1.0.0
+ *
  * @package    check-my-website
- * @subpackage check-my-website/includes
+ * @subpackage check-my-website/includes/classes
  * @author     Check my Website by NOVATEEK <contact@checkmy.ws>
  */
 class Check_my_Website_Activator {
 
 	/**
-	 * Short Description. (use period)
+	 * Plugin activation.
 	 *
-	 * Long Description.
+	 * Table creation for plugin use.
 	 *
 	 * @since    1.0.0
 	 */
 	public static function activate() {
             
+		// Load wpdb.
 		global $wpdb;
+
+		// Define plugin table.
         	$plugin_table = $wpdb->prefix . 'check_my_website';
         
 		if( $wpdb->get_var( "SHOW TABLES LIKE " . $plugin_table . ";" ) != $plugin_table ) {
@@ -56,10 +51,6 @@ class Check_my_Website_Activator {
             		dbDelta( $sql );
 
 		}
-        
-        
-        
-        
 
 	}
 

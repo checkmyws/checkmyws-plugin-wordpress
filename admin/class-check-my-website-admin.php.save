@@ -91,10 +91,10 @@ class Check_my_Website_Admin {
         public function enqueue_pages() {
 
 		// Register the settings page of the plugin.
-                add_options_page( 'Check my Website', 'Check my Website', 'manage_options', 'check-my-website-settings', array( $this, 'settings_page' ) );
+                add_options_page( 'Check my Website', 'Check my Website', 'manage_options', 'check-my-website-setting', array( $this, 'setting' ) );
 
 		// Register the dashboard page of the plugin.
-		add_dashboard_page( 'Check my Website', 'Check my Website', 'manage_options', 'check-my-website', array( $this, 'dashboard_page' ) );
+		add_dashboard_page( 'Check my Website', 'Check my Website', 'manage_options', 'check-my-website', array( $this, 'dashboard' ) );
 
         }
 
@@ -105,8 +105,8 @@ class Check_my_Website_Admin {
          */
         private function enqueue_sections() {
 
-		add_settings_section('api_section', 'API', array( $this, 'section_api'), 'check-my-website-settings');
-		add_settings_section('options_section', 'Options', array( $this, 'section_options'), 'check-my-website-settings');
+		add_settings_section('general_settings', 'General', array( $this, 'define_general_section'), 'check-my-website-setting');
+		add_settings_section('supplements_settings', 'Supplements', array( $this, 'define_supplements_section'), 'check-my-website-setting');
 
         }
 
@@ -117,13 +117,12 @@ class Check_my_Website_Admin {
          */
         private function enqueue_fields() {
 
-		add_settings_field('api_key', __( 'URL ID', 'check-my-website' ), array( $this, 'set_api_key'), 'check-my-website-settings', 'api_section');
-		add_settings_field('api_interval', __( 'Request interval', 'check-my-website' ), array( $this, 'set_api_interval'), 'check-my-website-settings', 'api_section');
-		add_settings_field('default_style', __( 'Default style', 'check-my-website' ), array( $this, 'set_default_style'), 'check-my-website-settings', 'options_section');
-		add_settings_field('default_unit', __( 'Default time unit', 'check-my-website' ), array( $this, 'set_default_unit'), 'check-my-website-settings', 'options_section');
-		add_settings_field('shortcode', __( 'Enable shortcode', 'check-my-website' ), array( $this, 'set_shortcode'), 'check-my-website-settings', 'options_section');
-		add_settings_field('dashboard_widget', __( 'Show dashboard widget', 'check-my-website' ), array( $this, 'set_dashboard_widget'), 'check-my-website-settings', 'options_section');
-		add_settings_field('widget', __( 'Show widget', 'check-my-website' ), array( $this, 'set_widget'), 'check-my-website-settings', 'options_section');
+		add_settings_field('key', 'API key', array( $this, 'define_key'), 'check-my-website-setting', 'general_settings');
+		add_settings_field('interval', 'Request interval', array( $this, 'define_interval'), 'check-my-website-setting', 'general_settings');
+		add_settings_field('style', 'Style', array( $this, 'define_style'), 'check-my-website-setting', 'general_settings');
+		add_settings_field('unit', 'Time unit', array( $this, 'define_unit'), 'check-my-website-setting', 'general_settings');
+		add_settings_field('shortcode', 'Shortcode', array( $this, 'define_shortcode'), 'check-my-website-setting', 'supplements_settings');
+		add_settings_field('widget', 'Widget', array( $this, 'define_widget'), 'check-my-website-setting', 'supplements_settings');
 
         }
 
@@ -138,8 +137,8 @@ class Check_my_Website_Admin {
 		$this->enqueue_sections();
 		$this->enqueue_fields();
 
-		// Register and save settings.
-		register_setting( 'cmws_settings', 'cmws_settings', array( $this, 'validate') );
+		// Register adn save settings.
+		register_setting( 'check_my_website_settings', 'check_my_website_settings', array( $this, 'validate') );
 
         }
 
@@ -159,25 +158,24 @@ class Check_my_Website_Admin {
         }
 
 	/**
-         * Display the api section in the settings page of the plugin.
+         * Display the general section in the settings page of the plugin.
          *
          * @since    1.0.0
          */
-        public function section_api() {
+        public function define_general_section() {
 
-		echo '<p>' . __( 'Set Check my Website API parameters.', 'check-my-website' ) . '<br/>';
-		echo '<em>' . __( 'Note: you must have a subscription account to enable API access and get data.', 'check-my-website' )  . '</em></p>';
+		echo '<p>' . __( 'Settings to get data from Check my Website API and display it.', 'check-my-website' ) . '</p>';
 
         }
 
 	/**
-         * Display the options section in the settings page of the plugin.
+         * Display the supplements section in the settings page of the plugin.
          *
          * @since    1.0.0
          */
-        public function section_options() {
+        public function define_supplements_section() {
 
-                echo '<p>' . __( 'Set general options.', 'check-my-website' ) . '</p>';
+                echo '<p>' . __( 'Settings to disable/enable Check my Website shortcode and widget.', 'check-my-website' ) . '</p>';
 
         }
 
@@ -186,10 +184,11 @@ class Check_my_Website_Admin {
          *
          * @since    1.0.0
          */
-        public function set_api_key() {
+        public function define_key() {
 
-		$options = get_option( 'cmws_settings' );
-                echo '<input type="text" name="cmws_settings[api_key]" placeholder="624e853d-b0f3-9bf9-8417-c7157aze7t" value="' . $options['api_key'] . '" />';
+		$options = get_option( 'check_my_website_settings' );
+
+                echo '<input type="text" name="check_my_website_settings[key]" value="' . $options['key'] . '" />';
 
         }
 
@@ -198,15 +197,15 @@ class Check_my_Website_Admin {
          *
          * @since    1.0.0
          */
-        public function set_api_interval() {
+        public function define_interval() {
 
-		$options = get_option( 'cmws_settings' );
+		$options = get_option( 'check_my_website_settings' );
 
 		$values = array( '1', '5', '10' );
 
-		echo '<select name="cmws_settings[api_interval]">';
+		echo '<select name="check_my_website_settings[interval]">';
 			foreach ( $values as $value ) {
-				echo '<option value="' .  $value . '" ' . selected( $options['api_interval'], $value ) . '>' . $value . ' minute(s)</option>';
+				echo '<option value="' .  $value . '" ' . selected( $options['interval'], $value ) . '>' . $value . ' minute(s)</option>';
 			}
 		echo '</select>';
 
@@ -217,15 +216,15 @@ class Check_my_Website_Admin {
          *
          * @since    1.0.0
          */
-        public function set_default_style() {
+        public function define_style() {
 
-		$options = get_option( 'cmws_settings' );
+		$options = get_option( 'check_my_website_settings' );
 
 		$styles = array( 'check-my-website-classic' => 'Classic', 'check-my-website-light' => 'Light', 'check-my-website-dark' => 'Dark' );
 
-                echo '<select name="cmws_settings[default_style]">';
+                echo '<select name="check_my_website_settings[style]">';
                         foreach ( $styles as $key => $value ) {
-                                echo '<option value="' .  $key . '" ' . selected( $options['default_style'], $key ) . '>' . $value . '</option>';
+                                echo '<option value="' .  $key . '" ' . selected( $options['style'], $key ) . '>' . $value . '</option>';
                         }
                 echo '</select>';
 
@@ -236,15 +235,15 @@ class Check_my_Website_Admin {
          *
          * @since    1.0.0
          */
-        public function set_default_unit() {
+        public function define_unit() {
 
-		$options = get_option( 'cmws_settings' );
+		$options = get_option( 'check_my_website_settings' );
 
                 $units = array( 'ms' => 'Millisecond', 's' => 'Second' );
 
-                echo '<select name="cmws_settings[default_unit]">';
+                echo '<select name="check_my_website_settings[unit]">';
                         foreach ( $units as $key => $value ) {
-                                echo '<option value="' .  $key . '" ' . selected( $options['default_unit'], $key ) . '>' . $value . '</option>';
+                                echo '<option value="' .  $key . '" ' . selected( $options['unit'], $key ) . '>' . $value . '</option>';
                         }
                 echo '</select>';
 
@@ -255,24 +254,15 @@ class Check_my_Website_Admin {
          *
          * @since    1.0.0
          */
-        public function set_shortcode() {
+        public function define_shortcode() {
 
-                $options = get_option( 'cmws_settings' );
-		echo '<input type="hidden" name="cmws_settings[shortcode]" value="0" />';
-		echo '<input type="checkbox" name="cmws_settings[shortcode]" id="shortcode" value="1" ' . checked( $options['shortcode'], 1, false ) . '/>';
+                $options = get_option( 'check_my_website_settings' );
 
-        }
+		$values = array( 'Disable', 'Enable' );
 
-	/**
-         * Display the dashboard widget field in the settings page of the plugin.
-         *
-         * @since    1.0.0
-         */
-        public function set_dashboard_widget() {
-
-		$options = get_option( 'cmws_settings' );
-		echo '<input type="hidden" name="cmws_settings[dashboard_widget]" value="0" />';
-                echo '<input type="checkbox" name="cmws_settings[dashboard_widget]" id="dashboard_widget" value="1" ' . checked( $options['dashboard_widget'], 1, false ) . '/>';
+		foreach ( $values as $value ) {
+			echo '<input type="radio" name="check_my_website_settings[shortcode]" value="' . $value  . '" ' . checked( $options['shortcode'], $value, false ) . '/>' . $value . ' ';
+		}
 
         }
 
@@ -281,11 +271,17 @@ class Check_my_Website_Admin {
          *
          * @since    1.0.0
          */
-        public function set_widget() {
+        public function define_widget() {
 
-                $options = get_option( 'cmws_settings' );
-                echo '<input type="hidden" name="cmws_settings[widget]" value="0" />';
-                echo '<input type="checkbox" name="cmws_settings[widget]" id="widget" value="1" ' . checked( $options['widget'], 1, false ) . '/>';
+		$options = get_option( 'check_my_website_settings' );
+
+                $values = array( 'None', 'Public only', 'Admin only', 'Public and Admin' );
+
+                echo '<select name="check_my_website_settings[widget]">';
+                        foreach ( $values as $value ) {
+                                echo '<option value="' .  $value . '" ' . selected( $options['widget'], $value ) . '>' . $value . '</option>';
+                        }
+                echo '</select>';
 
         }
 
@@ -294,22 +290,18 @@ class Check_my_Website_Admin {
          *
          * @since    1.0.0
          */
-        public function settings_page() {
+        public function setting() {
 
 		global $pagenow;
 
                 $current = 'settings';
 
-		// Define page tabs.
-                $tabs = array( 'settings' => __( 'Settings', 'check-my-website' ), 'dashboard' => __( 'Dashboard', 'check-my-website' ) );
+                $tabs = array( 'settings' => 'Settings', 'dashboard' => 'Dashboard' );
 
                 if ( isset ( $_GET['tab'] ) ) {
                         $current = $_GET['tab'];
                 };
 
-		settings_errors( 'cmws_settings', false );
-
-		// Display page.
 		include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-header.php' );
                 include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-settings.php' );
                 include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-footer.php' );
@@ -321,24 +313,23 @@ class Check_my_Website_Admin {
          *
          * @since    1.0.0
          */
-        public function dashboard_page() {
+        public function dashboard() {
 
 		global $pagenow;
 
 		$current = 'overview';
 
-		// Define page tabs.
-		$tabs = array( 'overview' => __( 'Overview', 'check-my-website' ), 'logs' => __( 'Logs', 'check-my-website' ), 'metrics' => __( 'Metrics', 'check-my-website' ), 'settings' => __( 'Settings', 'check-my-website' ) );
+		$tabs = array( 'overview' => 'Overview', 'logs' => 'Logs', 'metrics' => 'Metrics', 'settings' => 'Settings' );
 
 		if ( isset ( $_GET['tab'] ) ) {
 			$current = $_GET['tab']; 
 		};
 
 		// Load default parameters.
-		$options = get_option( 'cmws_settings' );
-                $default_api_key = $options['api_key'];
-		$default_style = $options['default_style'];
-		$default_unit = $options['default_unit'];
+		$options = get_option( 'check_my_website_settings' );
+                $default_api_key = $options['key'];
+		$default_style = $options['style'];
+		$default_unit = $options['unit'];
 
 		// Load api data.
 		if ( isset( $default_api_key ) ) { 
@@ -363,10 +354,10 @@ class Check_my_Website_Admin {
         public function dashboard_widget() {
 
 		// Load default parameters.
-                $options = get_option( 'cmws_settings' );
-                $default_api_key = $options['api_key'];
-                $default_style = $options['default_style'];
-                $default_unit = $options['default_unit'];
+                $options = get_option( 'check_my_website_settings' );
+                $default_api_key = $options['key'];
+                $default_style = $options['style'];
+                $default_unit = $options['unit'];
 
                 // Load api data.
                 if ( isset( $default_api_key ) ) {
@@ -377,7 +368,7 @@ class Check_my_Website_Admin {
                 }
 
 		// Display dashboard widget.
-                include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-dashboard-widget.php' );
+                include( plugin_dir_path( __FILE__ ) . 'partials/check-my-website-admin-dashwidget.php' );
 
         }
 

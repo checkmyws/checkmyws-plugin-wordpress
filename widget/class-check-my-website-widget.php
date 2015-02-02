@@ -1,20 +1,12 @@
 <?php
-
 /**
  * The widget functionality of the plugin.
  *
- * @link       http://checkmy.ws
+ * Defines the plugin name, version, and hooks for 
+ * enqueue, display and save the widget.
+ *
+ * @link       https://checkmy.ws
  * @since      1.0.0
- *
- * @package    check-my-website
- * @subpackage check-my-website/widget
- */
-
-/**
- * The widget functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the dashboard-specific stylesheet and JavaScript.
  *
  * @package    check-my-website
  * @subpackage check-my-website/widget
@@ -60,48 +52,44 @@ class Check_my_Website_Widget extends WP_Widget {
 	 * Display the widget on the public side of the site.
 	 *
 	 * @since    1.0.0
+	 * @var      array    $args       The arguments of the widget.
+         * @var      array    $instance    The saved values of the widget.
 	 */
 	public function widget( $args, $instance ) {
 
+		// Extract widget arguments.
 		extract( $args );
 
+		// Load saved values (parameters).
 		$title = apply_filters('widget_title', $instance['title']);
                 $text = $instance['text'];
 		$url = $instance['url'];
 		$style = $instance['style'];
 		$unit = $instance['unit'];
-		$check = $instance['check'];
+		$latest = $instance['latest'];
                 $state = $instance['state'];
 		$average = $instance['average'];
                 $availability = $instance['availability'];
-                $location = $instance['location'];
+                $poller = $instance['poller'];
                 $yslow = $instance['yslow'];
-                $cmw = $instance['cmw'];
 
-		$options = get_option( 'check_my_website_settings' );
-                $api_key = $options['key'];
+		// Load default parameters.
+                $options = get_option( 'cmws_settings' );
+                $default_api_key = $options['api_key'];
 
-		// Load api data.
-                $api = new Check_my_Website_Api( $api_key );
-		$data = $api->get_api_data();
-
-		// Get yslow information.
-                $yslow_data = yslow( $data );
-
-		// Get average time on 24h.
-                $last_key = key( array_slice( $data['week']['series']['checks.' . $api->get_api_key() . '.httptime']['data'], -1, 1, TRUE ) );
-                $sum = 0;
-                $count= 0;
-                foreach ( $data['day']['series']['checks.' . $api->get_api_key() . '.httptime']['data'] as $key => $value ) {
-                	$sum = $sum + $data['day']['series']['checks.' . $api->get_api_key() . '.httptime']['data'][$key][1];
-                        $count = $count +1;
+                // Load api data.
+                if ( isset( $default_api_key ) ) {
+                        $api = new Check_my_Website_Api( $default_api_key );
+                        $data = cmws_data( $api->get_api_data() );
+                } else {
+                        $data = NULL;
                 }
-                $average_time = $sum / $count;
 
+		// Display widget.
 		echo $before_widget;
-
+		echo '<div class="' . $style . '">';
 		include( plugin_dir_path( __DIR__ ) . 'public/partials/check-my-website-public-widget.php' );
-
+		echo '</div>';
 		echo $after_widget;
 
 	}
@@ -110,24 +98,28 @@ class Check_my_Website_Widget extends WP_Widget {
          * Save the widget parameters on the admin side of the site.
          *
          * @since    1.0.0
+	 * @var      array    $new_instance       The new saved values of the widget.
+         * @var      array    $old_instance    The old saved values of the widget.
          */
         public function update( $new_instance, $old_instance ) {
 
+		// Define instance.
 		$instance = $old_instance;
 
+		// Update widget values.
                 $instance['title'] = strip_tags($new_instance['title']);
                 $instance['text'] = strip_tags($new_instance['text']);
 		$instance['url'] = strip_tags($new_instance['url']);
 		$instance['style'] = strip_tags($new_instance['style']);
 		$instance['unit'] = strip_tags($new_instance['unit']);
-		$instance['check'] = strip_tags($new_instance['check']);
+		$instance['latest'] = strip_tags($new_instance['latest']);
 		$instance['average'] = strip_tags($new_instance['average']);
                 $instance['state'] = strip_tags($new_instance['state']);
                 $instance['availability'] = strip_tags($new_instance['availability']);
-                $instance['location'] = strip_tags($new_instance['location']);
+                $instance['poller'] = strip_tags($new_instance['poller']);
                 $instance['yslow'] = strip_tags($new_instance['yslow']);
-                $instance['cmw'] = strip_tags($new_instance['cmw']);
 
+		// Return saved values.
 		return $instance;
 
 	}
@@ -136,107 +128,49 @@ class Check_my_Website_Widget extends WP_Widget {
          * Display the widget on the admin side of the site.
          *
          * @since    1.0.0
+	 * @var      array    $instance       The instance of the widget.
          */
         public function form( $instance ) {
 
-		//$defaults = array( 'title' => 'Check my Website', 'id' => $api->checkmyws_api_id(), 'url' => true );
-                //$instance = wp_parse_args( (array) $instance, $defaults );
+		// Load default parameters.
+                $options = get_option( 'cmws_settings' );
 
+		// Define default values.
+		$defaults = array( 'title' => 'Check my Website', 'text' => '', 'url' => true, 'style' => $options['default_style'], 'unit' => $options['default_unit'], 'latest' => false, 'average' => false, 'state' => false, 'availability' => false, 'poller' => false, 'yslow' => false );
+                $instance = wp_parse_args( (array) $instance, $defaults );
+
+		// Load saved values (parameters).
 		$title = esc_attr($instance['title']);
                 $text = esc_attr($instance['text']);
 		$url = esc_attr($instance['url']);
 		$style = esc_attr($instance['style']);
 		$unit = esc_attr($instance['unit']);
-		$check = esc_attr($instance['check']);
+		$latest = esc_attr($instance['latest']);
 		$average = esc_attr($instance['average']);
                 $state = esc_attr($instance['state']);
                 $availability = esc_attr($instance['availability']);
-                $location = esc_attr($instance['location']);
+                $poller = esc_attr($instance['poller']);
                 $yslow = esc_attr($instance['yslow']);
-                $cmw = esc_attr($instance['cmw']);
 
-		?>
+		// Define some values association.
+		$styles = array( 'check-my-website-classic' => 'Classic', 'check-my-website-light' => 'Light', 'check-my-website-dark' => 'Dark' );
+		$units = array( 'ms' => 'Millisecond', 's' => 'Second' );
 
-                <p>
-                        <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title'); ?></label>
-                        <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
-                </p>
-
-                <p>
-                        <label for="<?php echo $this->get_field_id('text'); ?>"><?php _e('Text'); ?></label>
-                        <textarea class="widefat" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo $text; ?></textarea>
-                </p>
-
-		 <p>
-                        <label for="<?php echo $this->get_field_id('url'); ?>">Display URL</label>
-                        <input class="widefat" id="<?php echo $this->get_field_id('url'); ?>" name="<?php echo $this->get_field_name('url'); ?>" type="checkbox" value="1" <?php checked( '1', $url ); ?> />
-                </p>
-
-		<p>
-                        <label for="<?php echo $this->get_field_id('style'); ?>">Style</label>
-                        <select class="widefat" id="<?php echo $this->get_field_id('style'); ?>" name="<?php echo $this->get_field_name('style'); ?>">
-                                <?php
-                                $styles = array( 'check-my-website-classic' => 'Classic', 'check-my-website-light' => 'Light', 'check-my-website-dark' => 'Dark' );
-                                foreach ( $styles as $stylesheet => $styletitle ) {
-                                        echo '<option value="' . $stylesheet . '"', $style == $stylesheet ? ' selected="selected" ' : '', '>', $styletitle, '</option>';
-                                }
-                                ?>
-                        </select>
-                </p>
-
-		 <p>
-                        <label for="<?php echo $this->get_field_id('unit'); ?>">Time unit</label>
-                        <select class="widefat" id="<?php echo $this->get_field_id('unit'); ?>" name="<?php echo $this->get_field_name('unit'); ?>">
-                                <?php
-                                $units = array( 'ms' => 'Millisecond', 's' => 'Second' );
-                                foreach ( $units as $key => $value ) {
-                                        echo '<option value="' . $key . '" id="' . $key . '"', $unit == $key ? ' selected="selected"' : '', '>', $value, '</option>';
-                                }
-                                ?>
-                        </select>
-                </p>
-
-		<p>
-                        <label for="<?php echo $this->get_field_id('check'); ?>">Last response time</label>
-                        <input class="widefat" id="<?php echo $this->get_field_id('check'); ?>" name="<?php echo $this->get_field_name('check'); ?>" type="checkbox" value="1" <?php checked( '1', $check ); ?> />
-                </p>
-
-                <p>
-                        <label for="<?php echo $this->get_field_id('availability'); ?>">Availability (24h)</label>
-                        <input class="widefat" id="<?php echo $this->get_field_id('availability'); ?>" name="<?php echo $this->get_field_name('availability'); ?>" type="checkbox" value="1" <?php checked( '1', $availability ); ?> />
-                </p>
-	
-		<p>
-                        <label for="<?php echo $this->get_field_id('average'); ?>">Show average time (24h)</label>
-                        <input class="widefat" id="<?php echo $this->get_field_id('average'); ?>" name="<?php echo $this->get_field_name('average'); ?>" type="checkbox" value="1" <?php checked( '1', $average ); ?> />
-                </p>
-
-                <p>
-                        <label for="<?php echo $this->get_field_id('location'); ?>">State(s) information</label>
-                        <input class="widefat" id="<?php echo $this->get_field_id('location'); ?>" name="<?php echo $this->get_field_name('location'); ?>" type="checkbox"  value="1" <?php checked( '1', $location ); ?> />
-                </p>
-
-                <p>
-                        <label for="<?php echo $this->get_field_id('yslow'); ?>">YSlow information</label>
-                        <input class="widefat" id="<?php echo $this->get_field_id('yslow'); ?>" name="<?php echo $this->get_field_name('yslow'); ?>" type="checkbox" value="1" <?php checked( '1', $yslow ); ?> />
-                </p>
-
-                <p>
-                        <label for="<?php echo $this->get_field_id('cmw'); ?>">Promote Check My Website</label>
-                        <input class="widefat" id="<?php echo $this->get_field_id('cmw'); ?>" name="<?php echo $this->get_field_name('cmw'); ?>" type="checkbox" value="1" <?php checked( '1', $cmw ); ?> />
-                </p>
-
-		<?php
+		// Display widget form.
+		include( plugin_dir_path( __DIR__ ) . 'admin/partials/check-my-website-admin-widget.php' );
 
 	}
 
+	/**
+         * Register the widget for the site.
+         *
+         * @since    1.0.0
+         */
 	function enqueue_widgets() {
 
                 register_widget('Check_my_Website_Widget');
 
         }
 
-
 }
-
 ?>

@@ -1,19 +1,6 @@
 <?php
 
 /**
- * The file that defines the core plugin class
- *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the dashboard.
- *
- * @link       http://example.com
- * @since      1.0.0
- *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- */
-
-/**
  * The core plugin class.
  *
  * This is used to define internationalization, dashboard-specific hooks, and
@@ -22,10 +9,12 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
+ * @link       https://checkmy.ws
  * @since      1.0.0
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- * @author     Your Name <email@example.com>
+ *
+ * @package    check-my-website
+ * @subpackage check-my-website/includes/classes
+ * @author     Check my Website by NOVATEEK <contact@checkmy.ws>
  */
 class Check_my_Website {
 
@@ -86,8 +75,11 @@ class Check_my_Website {
 	 *
 	 * - Check_my_Website_Loader. Orchestrates the hooks of the plugin.
 	 * - Check_my_Website_i18n. Defines internationalization functionality.
+	 * - Check my Wevsite Functions. Defines plugin functions.
+	 * - Check_my_Website_Api. Defines Check my Website api functionality.
 	 * - Check_my_Website_Admin. Defines all hooks for the dashboard.
 	 * - Check_my_Website_Public. Defines all hooks for the public side of the site.
+	 * - Check_my_Website_Widget. Defines all hooks for the widget.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -176,10 +168,10 @@ class Check_my_Website {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'enqueue_pages' );
 	
 		// Load plugin settings.	
-		$options = get_option( 'check_my_website_settings' );
+		$options = get_option( 'cmws_settings' );
 
 		// Define widget according to plugin settings.
-		if ( ( $options['widget'] == 'Admin only' ) || ( $options['widget'] == 'Public and Admin' ) ) { 
+		if ( $options['dashboard_widget'] == 1 ) { 
 			$this->loader->add_action( 'wp_dashboard_setup', $plugin_admin, 'enqueue_widgets' );
 		};
 
@@ -212,9 +204,9 @@ class Check_my_Website {
 
                 $plugin_widget = new Check_my_Website_Widget( $this->get_plugin_name(), $this->get_version() );
 
-		$options = get_option( 'check_my_website_settings' );
+		$options = get_option( 'cmws_settings' );
 
-                if ( ( $options['widget'] == 'Public only' ) || ( $options['widget'] == 'Public and Admin' ) ) {
+                if ( $options['widget'] == 1 ) {
 	                $this->loader->add_action( 'widgets_init', $plugin_widget, 'enqueue_widgets' );
 		};
 

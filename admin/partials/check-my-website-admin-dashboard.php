@@ -36,7 +36,7 @@
 			foreach( $tabs as $tab => $name ){
         			$class = ( $tab == $current ) ? ' nav-tab-active' : '';
         			if ( $tab == 'settings' ) {
-                			echo '<a class="nav-tab' . $class . '" href="options-general.php?page=check-my-website-setting">' . $name . '</a>';
+                			echo '<a class="nav-tab' . $class . '" href="options-general.php?page=check-my-website-settings">' . $name . '</a>';
        		 		} else {
                 			echo '<a class="nav-tab' . $class . '" href="?page=check-my-website&tab=' . $tab . '">' . $name . '</a>';
      				};

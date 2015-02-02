@@ -1,24 +1,16 @@
 <?php
-
 /**
  * The public-facing functionality of the plugin.
  *
- * @link       http://example.com
+ * Defines the plugin name, version, and hooks for
+ * enqueue styles, scripts, widgets and shortcodes.
+ *
+ * @link       https://checkmy.ws
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/public
- */
-
-/**
- * The public-facing functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the dashboard-specific stylesheet and JavaScript.
- *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/public
- * @author     Your Name <email@example.com>
+ * @package    check-my-website
+ * @subpackage check-my-website/public
+ * @author     Check my Website by NOVATEEK <contact@checkmy.ws>
  */
 class Check_my_Website_Public {
 
@@ -49,15 +41,16 @@ class Check_my_Website_Public {
 	 */
 	public function __construct( $plugin_name, $version ) {
 
+		// Set variables.
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
 		// Load plugin settings.
-                $options = get_option( 'check_my_website_settings' );
+                $options = get_option( 'cmws_settings' );
 
-                // Enable shortcode according to plugin settings.
-                if ( $options['shortcode'] == 'Enable' ) {
-                        add_shortcode( $this->plugin_name, 'shortcode' );
+                // Load shortcode according to plugin settings.
+                if ( $options['shortcode'] == 1 ) {
+                        add_shortcode( 'cmws', array( $this, 'shortcode' ) );
                 };
 
 	}
@@ -69,67 +62,54 @@ class Check_my_Website_Public {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Plugin_Name_Public_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Plugin_Name_Public_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/check-my-website-public.css', array(), $this->version, 'all' );
 
 	}
 
 	/**
-	 * Register the stylesheets for the public-facing side of the site.
+	 * Register the javascripts for the public-facing side of the site.
 	 *
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Plugin_Name_Public_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Plugin_Name_Public_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/plugin-name-public.js', array( 'jquery' ), $this->version, false );
+		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/check-my-website-public.js', array( 'jquery' ), $this->version, false );
 
 	}
 
 	/**
-         * Register the stylesheets for the public-facing side of the site.
+         * Define the shortcodes for the public-facing side of the site.
          *
          * @since    1.0.0
          */
-        public function shortcode() {
+        public function shortcode( $atts ) {
 
-                /**
-                 * This function is provided for demonstration purposes only.
-                 *
-                 * An instance of this class should be passed to the run() function
-                 * defined in Plugin_Name_Public_Loader as all of the hooks are defined
-                 * in that particular class.
-                 *
-                 * The Plugin_Name_Public_Loader will then create the relationship
-                 * between the defined hooks and the functions defined in this
-                 * class.
-                 */
+		// Load default parameters.
+                $options = get_option( 'cmws_settings' );
+		$default_api_key = $options['api_key'];
 
+                // Load api data.
+                if ( isset( $default_api_key ) ) {
+                        $api = new Check_my_Website_Api( $default_api_key );
+                        $data = cmws_data( $api->get_api_data() );
+                } else {
+                        $data = NULL;
+                }
+
+		// Extract arguments.
+		extract(
+    			shortcode_atts(
+      				array(
+					'title' => 'Article',
+					'latest' => $data['global']['last_time_response']
+				), 
+				$atts
+			)
+		);
+
+		return $title . $latest;
 
         }
 
 }
-
 ?>

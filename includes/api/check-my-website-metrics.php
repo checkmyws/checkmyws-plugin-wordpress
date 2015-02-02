@@ -41,7 +41,8 @@ require_once '../classes/class-check-my-website-api.php';
 /**
  * Get api data and convert it to json.
  */
-$api = new Check_my_Website_Api( '624e853d-90f3-4bf9-8417-c78157ed38e4' );
+$options = get_option( 'cmws_settings' );
+$api = new Check_my_Website_Api( $options['api_key'] );
 $data = json_encode( $api->get_api_data() );
 
 /**

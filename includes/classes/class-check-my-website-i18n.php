@@ -1,27 +1,16 @@
 <?php
 
 /**
- * Define the internationalization functionality
- *
- * Loads and defines the internationalization files for this plugin
- * so that it is ready for translation.
- *
- * @link       http://checkmy.ws
- * @since      1.0.0
- *
- * @package    check-my-website
- * @subpackage check-my-website/includes
- */
-
-/**
  * Define the internationalization functionality.
  *
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
+ * @link       https://checkmy.ws
  * @since      1.0.0
+ *
  * @package    check-my-website
- * @subpackage check-my-website/includes
+ * @subpackage check-my-website/includes/classes
  * @author     Check my Website by NOVATEEK <contact@checkmy.ws>
  */
 class Check_my_Website_i18n {
