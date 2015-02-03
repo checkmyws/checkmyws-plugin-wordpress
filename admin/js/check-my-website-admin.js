@@ -29,7 +29,7 @@ jQuery(document).ready(function(){
 					return Math.round(y, decimals) + ' '  + unit;
 				};
 
-				var urlId = data['global']['id'];
+				var urlId = data['status']['_id'];
 
 				var dataSet_httptime = [
 					{
