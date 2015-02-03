@@ -19,7 +19,7 @@
 
 <p style="float: right;margin: 0 12px 0 0;">
 <span class="dashicons dashicons-chart-area" style="font-size: 18px;"></span> <a href="index.php?page=check-my-website" style="vertical-align: top;"><?php _e( 'Dashboard', 'check-my-website' ); ?></a>
-<span class="dashicons dashicons-forms" style="font-size: 18px;"></span> <a href="options-general.php?page=check-my-website-setting" style="vertical-align: top;"><?php _e( 'Settings', 'check-my-website' ); ?></a>
+<span class="dashicons dashicons-forms" style="font-size: 18px;"></span> <a href="options-general.php?page=check-my-website-settings" style="vertical-align: top;"><?php _e( 'Settings', 'check-my-website' ); ?></a>
 </p>
 
 <?php

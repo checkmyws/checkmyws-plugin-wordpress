@@ -84,6 +84,8 @@ class Check_my_Website_Public {
          */
         public function shortcode( $atts ) {
 
+		$html = NULL;
+
 		// Load default parameters.
                 $options = get_option( 'cmws_settings' );
 		$default_api_key = $options['api_key'];
@@ -101,13 +103,17 @@ class Check_my_Website_Public {
     			shortcode_atts(
       				array(
 					'title' => 'Article',
-					'latest' => $data['global']['last_time_response']
+					'latest' => false
 				), 
 				$atts
 			)
 		);
 
-		return $title . $latest;
+		if ( $latest ) :
+			$html = $html . ' Latest time response : ' . $data['global']['last_time_response'];
+		endif;
+
+		return $html;
 
         }
 

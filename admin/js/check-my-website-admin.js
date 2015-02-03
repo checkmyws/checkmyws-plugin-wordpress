@@ -29,10 +29,12 @@ jQuery(document).ready(function(){
 					return Math.round(y, decimals) + ' '  + unit;
 				};
 
+				var urlId = data['global']['id'];
+
 				var dataSet_httptime = [
 					{
 						color: '#ee5f5b',
-						data: data['day']['series']['checks.624e853d-90f3-4bf9-8417-c78157ed38e4.httptime']['data'],
+						data: data['day']['series']['checks.'+urlId+'.httptime']['data'],
 						fillColor: '#ee5f5b',
 						hoverable: true,
 						lines: { show: true, fill: true	},
@@ -45,7 +47,7 @@ jQuery(document).ready(function(){
 				var dataSet_state = [
                 	        	{
 						color: '#5bc592',
-                        	    		data: data['day']['series']['checks.624e853d-90f3-4bf9-8417-c78157ed38e4.state.all']['data'],
+                        	    		data: data['day']['series']['checks.'+urlId+'.state.all']['data'],
 						fillColor: '#5bc592',
 						lines: { show: true, fill: true, zero: false },
 						metric: 'availability',

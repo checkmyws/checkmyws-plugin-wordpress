@@ -361,7 +361,7 @@ function cmws_global( $data ) {
 	$last_key = key( array_slice( $data['week']['series']['checks.' . $id . '.state.all']['data'], -1, 1, TRUE ) );
         $availability = round( $data['week']['series']['checks.' . $id . '.state.all']['data'][$last_key][1], 2 );
 
-        return array( 'url' => $url, 'state' => $state, 'label' => $label, 'last_change_date' => $last_change_date, 'last_change_time' => $last_change_time, 'state_duration' => $state_duration, 'last_time_response' => $last_time_response, 'last_response_time' => $last_response_time, 'average_time' => $average_time, 'availability' => $availability );
+        return array( 'id' => $id, 'url' => $url, 'state' => $state, 'label' => $label, 'last_change_date' => $last_change_date, 'last_change_time' => $last_change_time, 'state_duration' => $state_duration, 'last_time_response' => $last_time_response, 'last_response_time' => $last_response_time, 'average_time' => $average_time, 'availability' => $availability );
 
 }
 
