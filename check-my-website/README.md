@@ -1,10 +1,20 @@
 # Check my Website for Wordpress
 
-## API
+Check my Website for Wordpress is a plugin developped for Wordpress CMS. It allow you to visualize your metrics from Check my Website service (you need to subscribe it) directly in your Wordpress website.
+
+Easy to install. Just install the plugin like any other. Get your url id and enable your api access.
+
+Visualize your website metrics!
+- Directly in your Wordpress admin-side
+- Promote your website metrics
+
+## Documentation
+
+### API
 
 Check my Website plugin api documentation.
 
-### URL ID
+#### URL ID
 
 To use the plugin, you **have to set the URL ID** on the Check my Website settings page. Otherwise, the plugin will not work because it is required to query the Check my Website API.
 
@@ -12,35 +22,35 @@ The URL ID is a unique key for each url monitored by Check my Website. You can o
 
 *Note : the Check my Website API access required a [subscription plan](https://checkmy.ws/en/pricing). Not available for free plan.*
 
-### Request interval
+#### Request interval
 
 To allow you to choose a specific interval query cache for the Check my Website API (the data are stored in your database), the plugin provide an interval option.
 
 You can select 1, 5 or 10 minutes interval on the Check my Website settings page of the plugin.
 
-## Options
+### Options
 
 Check my Website plugin options documentation.
 
-### Style
+#### Style
 
 To allow you to choose a specific stylesheet by default for the plugin display (dashboard and widget), the plugin provide a style option.
 
 You can select classic / light / dark on the Check my Website settings page of the plugin.
 
-### Time unit
+#### Time unit
 
 To allow you to choose a specific time unit by default for the plugin metrics (dashboard, widgets and shortcode), the plugin provide a unit option.
 
 You can select millisecond (ms) / second (s) on the Check my Website settings page of the plugin.
 
-### Shortcode
+#### Shortcode
 
 To allow you to display your Check my Website data anywhere on your site, the plugin provide a shortcode.
 
 You can enable / disable this option on the Check my Website settings page of the plugin.
 
-#### Usage
+##### Usage
 
 Check my Website shortcode is easy to use it. You must write **[cmws]** with parameters in your Wordpress post or page.
 
@@ -84,7 +94,7 @@ average :
 - description : show average response time on 24h
 - values : true / false (default)
 
-#### Examples
+##### Examples
 
 - display all
 
@@ -102,13 +112,13 @@ you can disable data label display :
 
 `[cmws display=custom label=false grade=true]`
 
-### Dashboard widget
+#### Dashboard widget
 
 To allow you to display your Check my Website data resume on your home admin site, the plugin provide a dashboard widget.
 
 You can enable / disable this option on the Check my Website settings page of the plugin.
 
-### Widget
+#### Widget
 
 To allow you to display your Check my Website data on your public site, the plugin provide a widget.
 
