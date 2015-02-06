@@ -137,7 +137,7 @@ class Check_my_Website_Public {
                         if ( $label == 'true' ) :
                                 $html = $html . __( 'Url', 'check-my-website' ) . ' : ';
                         endif;
-			if ( $data['global']['url'] ) :
+			if ( isset( $data['global']['url'] ) ) :
 	                	$html = $html . '<a href="' . $data['global']['url'] . '">' . $data['global']['url'] . '</a>';
 			else :
 				$html = $html . __( 'No data', 'check-my-website' );
@@ -154,7 +154,7 @@ class Check_my_Website_Public {
 			if ( $label == 'true' ) :
                                 $html = $html . __( 'State', 'check-my-website' ) . ' : ';
                         endif;
-			if ( $data['global']['state'] ) :
+			if ( isset( $data['global']['state'] ) ) :
 	                        $html = $html . $data['global']['state'];
 			else :
                                 $html = $html . __( 'No data', 'check-my-website' );
@@ -171,7 +171,7 @@ class Check_my_Website_Public {
                         if ( $label == 'true' ) :
                                 $html = $html . __( 'State duration', 'check-my-website' ) . ' : ';
                         endif;
-			if ( $data['global']['state_duration'] ) :
+			if ( isset( $data['global']['state_duration'] ) ) :
 	                        $html = $html . $data['global']['state_duration'] . ' ' .__( 'day(s)', 'check-my-website' );
 			else :
                                 $html = $html . __( 'No data', 'check-my-website' );
@@ -188,7 +188,7 @@ class Check_my_Website_Public {
 			if ( $label == 'true' ) :
                                 $html = $html . __( 'Grade', 'check-my-website' ) . ' : ';
                         endif;
-			if ( $data['yslow']['grade'] ) :
+			if ( isset( $data['yslow']['grade'] ) ) :
 	                        $html = $html . $data['yslow']['grade'];
 			else :
                                 $html = $html . __( 'No data', 'check-my-website' );
@@ -205,7 +205,7 @@ class Check_my_Website_Public {
 			if ( $label == 'true' ) :
                                 $html = $html . __( 'Score', 'check-my-website' ) . ' : ';
                         endif;
-			if ( $data['yslow']['score'] ) :
+			if ( isset( $data['yslow']['score'] ) ) :
                 	$html = $html . $data['yslow']['score'];
 			else :
                                 $html = $html . __( 'No data', 'check-my-website' );
@@ -222,7 +222,7 @@ class Check_my_Website_Public {
                         if ( $label == 'true' ) :
                                 $html = $html . __('Availability', 'check-my-website' ) . ' (24h) : ';
                         endif;
-			if ( $data['global']['availability'] ) :
+			if ( isset( $data['global']['availability'] ) ) :
 	                        $html = $html . $data['global']['availability'] . ' %';
 			else :
                                 $html = $html . __( 'No data', 'check-my-website' );
@@ -239,7 +239,7 @@ class Check_my_Website_Public {
 			if ( $label == 'true' ) :
                                 $html = $html . __( 'Response time', 'check-my-website' ) . ' : ';
                         endif;
-			if ( $data['global']['latest_response_time'] ) :
+			if ( isset( $data['global']['latest_response_time'] ) ) :
 	                	$html = $html . cmws_convert( $data['global']['latest_response_time'], $default_unit ) . ' ' . $default_unit;
 			else :
                                 $html = $html . __( 'No data', 'check-my-website' );
@@ -257,7 +257,7 @@ class Check_my_Website_Public {
                         if ( $label == 'true' ) :
                                 $html = $html . __( 'Average', 'check-my-website' ) . ' (24h) : ';
                         endif;
-			if ( $data['global']['average_time'] ) :
+			if ( isset( $data['global']['average_time'] ) ) :
 	                        $html = $html . cmws_convert( $data['global']['average_time'], $default_unit ) . ' ' . $default_unit;
 			else :
                                 $html = $html . __( 'No data', 'check-my-website' );

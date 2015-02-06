@@ -26,7 +26,7 @@ Check my Website plugin options documentation.
 
 To allow you to choose a specific stylesheet by default for the plugin display (dashboard and widget), the plugin provide a style option.
 
-You can select classic (simple design) / light (more convenient for white theme) / dark (more convenient for black theme) on the Check my Website settings page of the plugin.
+You can select classic / light / dark on the Check my Website settings page of the plugin.
 
 ### Time unit
 
