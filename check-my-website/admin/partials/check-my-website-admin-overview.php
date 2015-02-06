@@ -24,10 +24,10 @@
 					
 	                        <?php
 
-        	                        if ( $data['global'] ) {
+        	                        if ( isset( $data['global']['url'] ) ) {
 			                        echo '<span class="cmws-label cmws-label-' . $data['global']['label'] . '">' . $data['global']['state'] . '</span> <a class="cmws-link" target="_blank" href="' . $data['global']['url'] . '">' . $data['global']['url'] . '</a>';
 					} else {
-						echo '<span class="cmws-danger">' . __( 'No url', 'check-mywebsite' ) . '</span>';
+						echo '<span>' . __( 'No url', 'check-mywebsite' ) . '</span>';
 					}
 
 				?>
@@ -45,10 +45,10 @@
 
 					<?php
 
-                        	                if ( $data['global'] ) {
-							echo '<span class="cmws-widget-font-x3">' . $data['global']['state_duration'] . ' day</span><br/><span class="cmws-widget-font cmws-' . $data['global']['label'] . '">' . $data['global']['last_change_date'] . '</span>';
+                        	                if ( isset( $data['global'] ) ) {
+							echo '<span class="cmws-widget-font-x3">' . $data['global']['state_duration'] . ' ' .__( 'day(s)', 'check-my-website' ) . '</span><br/><span class="cmws-widget-font cmws-' . $data['global']['label'] . '">' . $data['global']['last_change_date'] . '</span>';
                                                 } else {
-                                                        echo '<span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
+                                                        echo '<span>' . __( 'No data', 'check-my-website' ) . '</span>';
                                                 }
 
                                        	?>
@@ -62,12 +62,12 @@
 
                                 	<?php
 
-						if ( $data['pollers'] ) {
+						if ( isset( $data['pollers'] ) ) {
                                         		foreach ( $data['pollers'] as $poller => $poller_values ) {
 								echo '<span class="cmws-list-group-item cmws-color cmws-font"><img class="cmws-flag cmws-flag-' . $poller_values['flag'] . '" src="' . plugins_url( '/assets/blank.gif', dirname(__DIR__ )) . '" alt="" /><span class="cmws-label cmws-label-' . $poller_values['label'] . '">' . $poller_values['state'] . '</span> ' . '<span class="cmws-label cmws-label-info cmws-pull-right">' . cmws_convert( $poller_values['time'], $default_unit ) . $default_unit . '</span>' . $poller_values['name'] . '<br></span>';
                                         		}
 						} else {
-							echo '<span class="cmws-list-group-item cmws-color cmws-font cmws-danger">' . __( 'No pollers', 'check-my-website' ) . '</span>';
+							echo '<span class="cmws-list-group-item cmws-color cmws-font">' . __( 'No pollers', 'check-my-website' ) . '</span>';
 						}
 
                                 	?>
@@ -80,14 +80,14 @@
 
 					<?php
 
-                                                if ( $data['infos'] ) {
+                                                if ( isset( $data['infos'] ) ) {
 							foreach ( $data['infos'] as $info => $info_values ) {
-								if ( $info_values ) {
+								if ( isset ( $info_values ) ) {
 									echo '<span class="cmws-list-group-item cmws-color cmws-font">' . $info_values['name'] . ' <span class="cmws-label cmws-label-' . $info_values['label'] . ' cmws-pull-right">' . $info_values['data'] . '</span><br/></span>';
 								}
 							}
                                                 } else {
-                                                        echo '<span class="cmws-list-group-item cmws-color cmws-font cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
+                                                        echo '<span class="cmws-list-group-item cmws-color cmws-font">' . __( 'No data', 'check-my-website' ) . '</span>';
                                                 }
 
                                         ?>
@@ -99,15 +99,15 @@
                 	<div class="cmws-column cmws-column-3">
                        		<div class="cmws-cell">
                                		<div class="cmws-panel cmws-panel-default cmws-panel-widget cmws-color">
-                                    		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-awards"></span> <?php _e( 'Performance (YSlow)', 'check-my-website' ); ?></div>
+                                    		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-awards"></span> <?php _e( 'Performance', 'check-my-website' ); ?> (YSlow)</div>
                                         	<div class="cmws-panel-body cmws-widget-height cmws-text-center">
 
 						<?php
 
-                                                	if ( $data['yslow'] ) {
+                                                	if ( isset( $data['yslow'] ) ) {
                                                         	echo '<span class="cmws-widget-font-x2 cmws-label cmws-label-' . $data['yslow']['label'] . '">' . $data['yslow']['grade'] . '</span><br/><br/><span class="widget-font">' . __( 'Score:', 'check-my-website' ) . ' ' . $data['yslow']['score'] . '</span>';
                                                 	} else {
-                                                        	echo '<span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
+                                                        	echo '<span>' . __( 'No data', 'check-my-website' ) . '</span>';
                                                 	}
 
                                         	?>
@@ -119,15 +119,15 @@
                 	<div class="cmws-column cmws-column-3">
                    		<div class="cmws-cell">
                               		<div class="cmws-panel cmws-panel-default cmws-panel-widget cmws-color">
-                                      		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-clock"></span> <?php _e( 'Availability (24h)', 'check-my-website' ); ?></div>
+                                      		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-clock"></span> <?php _e( 'Availability', 'check-my-website' ); ?> (24h)</div>
                                         	<div class="cmws-panel-body cmws-widget-height">
 
 						<?php
 
-                                                        if ( $data['global'] ) {
-                                                                echo '<span class="cmws-widget-font-x3">' . $data['global']['availability'] . '<span class="cmws-widget-font"> %</span></span><br/><span class="cmws-widget-font cmws-info">a day</span>';
+                                                        if ( isset( $data['global']['availability'] ) ) {
+                                                                echo '<span class="cmws-widget-font-x3">' . $data['global']['availability'] . '<span class="cmws-widget-font"> %</span></span><br/><span class="cmws-widget-font cmws-info">' . __( 'a day', 'check-my-website' ) . '</span>';
                                                         } else {
-                                                                echo '<span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
+                                                                echo '<span>' . __( 'No data', 'check-my-website' ) . '</span>';
                                                         }
 
                                                 ?>						
@@ -139,15 +139,15 @@
 			<div class="cmws-column cmws-column-3">
                        		<div class="cmws-cell">
                                		<div class="cmws-panel cmws-panel-default cmws-panel-widget cmws-color">
-                                       		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-dashboard"></span> <?php _e( 'Last time response', 'check-my-website' ); ?></div>
+                                       		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-dashboard"></span> <?php _e( 'Latest response time', 'check-my-website' ); ?></div>
                                         	<div class="cmws-panel-body cmws-widget-height">
 
 						<?php
 
-                                                        if ( $data['global'] ) {
-                                                                echo '<span class="cmws-widget-font-x3">' . cmws_convert( $data['global']['last_time_response'], $default_unit ) . '<span class="cmws-widget-font"> ' . $default_unit . '</span></span><br/><span class="cmws-widget-font cmws-info">' . $data['global']['last_response_time'] . '</span>';
+                                                        if ( isset( $data['global']['latest_response_time'] ) ) {
+                                                                echo '<span class="cmws-widget-font-x3">' . cmws_convert( $data['global']['latest_response_time'], $default_unit ) . '<span class="cmws-widget-font"> ' . $default_unit . '</span></span><br/><span class="cmws-widget-font cmws-info">' . $data['global']['last_response_time'] . '</span>';
                                                         } else {
-                                                                echo '<span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
+                                                                echo '<span>' . __( 'No data', 'check-my-website' ) . '</span>';
                                                         }
 
                                                 ?>
@@ -159,15 +159,15 @@
                 	<div class="cmws-column cmws-column-3">
                      		<div class="cmws-cell">
                                		<div class="cmws-panel cmws-panel-default cmws-panel-widget cmws-color">
-                                       		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-dashboard"></span> <?php _e( 'Average time (24h)', 'check-my-website' ); ?></div>
+                                       		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-dashboard"></span> <?php _e( 'Average time', 'check-my-website' ); ?> (24h)</div>
                                         	<div class="cmws-panel-body cmws-widget-height">
 
 						<?php
 
-                                                        if ( $data['global'] ) {
+                                                        if ( isset( $data['global']['average_time'] ) ) {
                                                                 echo '<span class="cmws-widget-font-x3">' . cmws_convert( $data['global']['average_time'], $default_unit ) . '<span class="cmws-widget-font"> ' . $default_unit . '<span></span>';
                                                         } else {
-                                                                echo '<span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span>';
+                                                                echo '<span>' . __( 'No data', 'check-my-website' ) . '</span>';
                                                         }
 
                                                 ?>
@@ -179,14 +179,14 @@
                 	<div class="cmws-column cmws-column-12">
                        		<div class="cmws-cell">
                                		<div class="cmws-panel cmws-panel-default cmws-panel-widget cmws-color">
-                                       		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-list-view"></span> <?php _e( 'Logs (24h)', 'check-my-website' ); ?></div>
+                                       		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-list-view"></span> <?php _e( 'Logs', 'check-my-website' ); ?> (24h)</div>
                                         	<div class="cmws-panel-body">
 							<table class="cmws-table cmws-table-striped" cmws-font>
 								<tbody>	
 
 								<?php
 
-									if ( $data['logs'] ) {
+									if ( isset( $data['logs'] ) ) {
 										foreach ( $data['logs'] as $log => $log_values ) {
 											if ( $log_values['display'] ) {
                                 		                        			echo '<tr>';

@@ -22,7 +22,7 @@
                 		<div class="cmws-panel cmws-panel-default cmws-color">
                         		<div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-chart-bar"></span> <?php _e( 'Response time', 'check-my-website' ); ?></div>
                                 	<div class="cmws-panel-body">
-						<div id="cmws-chart-httptime" style="width:100%;height:300px;">
+						<div id="cmws-chart-httptime" class="cmws-chart">
 							<span><?php _e( 'No metrics', 'check-my-website' ); ?></span>
 						</div>
         	              	        </div>
@@ -34,7 +34,7 @@
                 	        <div class="cmws-panel cmws-panel-default cmws-color">
                         	        <div class="cmws-panel-heading cmws-color-alt"><span class="dashicons dashicons-chart-bar"></span> <?php _e( 'Availability', 'check-my-website' ); ?></div>
                                 	<div class="cmws-panel-body">
-						<div id="cmws-chart-state" style="width:100%;height:300px;">
+						<div id="cmws-chart-state" class="cmws-chart">
 							<span><?php _e( 'No metrics', 'check-my-website' ); ?></span>
 						</div>
                         	  	</div>

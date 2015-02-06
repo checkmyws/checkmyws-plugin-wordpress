@@ -101,16 +101,27 @@ function cmws_poller_name( $pollerToConvert ) {
  * Format and return poller data.
  *
  * @since    1.0.0
- * @var      string    $id       The poller id.
- * @var      string    $time       The poller response time.
- * @var      string    $code       The poller state.
+ * @var      string    $poller_id       The poller id.
+ * @var      string    $poller_time       The poller response time.
+ * @var      string    $poller_code       The poller state.
  */
-function cmws_poller( $id, $time, $code ) {
+function cmws_poller( $poller_id, $poller_time, $poller_code ) {
 
-	$state = cmws_state( 'poller', $code );
-        $label = cmws_label( 'poller', $code );
-	$flag = strtolower( substr( $id, 0, 2 ) );
-        $name = cmws_poller_name( $id );
+	$state = $label = $flag = $name = $time = NULL;
+
+	if ( isset( $poller_id ) ) :
+		$flag = strtolower( substr( $poller_id, 0, 2 ) );
+	        $name = cmws_poller_name( $poller_id );
+	endif;
+
+	if ( isset( $poller_code ) ) :
+		$state = cmws_state( 'poller', $poller_code );
+        	$label = cmws_label( 'poller', $poller_code );
+	endif;
+
+	if ( isset( $poller_time ) ) :
+		$time = $poller_time;
+	endif;
 
         return array( 'state' => $state, 'label' => $label, 'flag' => $flag, 'name' => $name, 'time' => $time );
 
@@ -224,12 +235,16 @@ function cmws_message( $code ) {
  */
 function cmws_log( $data ) {
 
-	$state = cmws_state( 'log', $data['state'] );
-	$label = cmws_label( 'log', $data['state'] );
-	$date = cmws_date( $data['timestamp'], 'full' );
-	$source = 'all';
-	$message = cmws_message( $data['msg'] );
-	$display = cmws_display( $data['timestamp'] );
+	$state = $label = $date = $source = $message = $display = NULL;
+
+	if ( isset( $data ) ) :
+		$state = cmws_state( 'log', $data['state'] );
+		$label = cmws_label( 'log', $data['state'] );
+		$date = cmws_date( $data['timestamp'], 'full' );
+		$source = 'all';
+		$message = cmws_message( $data['msg'] );
+		$display = cmws_display( $data['timestamp'] );
+	endif;
 
         return array( 'state' => $state, 'label' => $label, 'date' => $date, 'source' => $source, 'message' => $message, 'display' => $display );
 }
@@ -242,26 +257,24 @@ function cmws_log( $data ) {
  */
 function cmws_infos( $data ) {
 
+	$dns_expiration = $ssl_expiration = $requests = $not_found = $js_errors = $redirects = NULL;
+
 	// Define dns expiration.
-	if ( isset( $data['status']['metas']['dns_expiration_timestamp'] ) ) {
+	if ( isset( $data['status']['metas']['dns_expiration_timestamp'] ) ) :
 		$dns_expiration['name'] = __( 'DNS Expiration', 'check-my-website' );
        		$dns_expiration['data'] = cmws_date( $data['status']['metas']['dns_expiration_timestamp'], 'date' );
 		$dns_expiration['label'] = 'info';
-	} else {
-		$dns_expiration = false;
-	}
+	endif;
 
 	// Define ssl cert expiration.
-        if ( isset( $data['status']['metas']['ssl_cert_expiration_timestamp'] ) ) {
+        if ( isset( $data['status']['metas']['ssl_cert_expiration_timestamp'] ) ) :
                 $ssl_expiration['name'] = __( 'SSL Expiration', 'check-my-website' );
                 $ssl_expiration['data'] = cmws_date( $data['status']['metas']['ssl_cert_expiration_timestamp'], 'date' );
                 $ssl_expiration['label'] = 'info';
-        } else {
-                $ssl_expiration = false;
-        }
+	endif;
 
 	// Define requests.
-	if ( isset( $data['status']['metas']['requests'] ) ) {
+	if ( isset( $data['status']['metas']['requests'] ) ) :
 		$requests['name'] = __( 'Number of HTTP requests', 'check-my-website' );
         	$requests['data'] = $data['status']['metas']['requests'];
 		if ( $data['status']['metas']['requests'] >= 100 ) {
@@ -271,12 +284,10 @@ function cmws_infos( $data ) {
         	} else {
 			$requests['label'] = 'success';
 		}
-	} else {
-                $requests = false;
-        }
+	endif;
 
 	// Define not found.
-        if ( isset( $data['status']['metas']['notFound'] ) ) {
+        if ( isset( $data['status']['metas']['notFound'] ) ) :
 		$not_found['name'] = __( 'Number of HTTP 404 responses', 'check-my-website' );
         	$not_found['data'] = $data['status']['metas']['notFound'];
 		if ( $data['status']['metas']['notFound'] >= 1 ) {
@@ -284,12 +295,10 @@ function cmws_infos( $data ) {
         	} else {
                 	$not_found['label'] = 'success';
         	}
-	} else {
-                $not_found = false;
-        }
+	endif;
 
 	// Define js errors.
-        if ( isset( $data['status']['metas']['jsErrors'] ) ) {
+        if ( isset( $data['status']['metas']['jsErrors'] ) ) :
 		$js_errors['name'] = __( 'Number of JavaScript errors', 'check-my-website' );
         	$js_errors['data'] = $data['status']['metas']['jsErrors'];
 		if ( $data['status']['metas']['jsErrors'] >= 1 ) {
@@ -297,12 +306,10 @@ function cmws_infos( $data ) {
         	} else {
                 	$js_errors['label'] = 'success';
         	}
-	} else {
-                $js_errors = false;
-        }
+	endif;
 
 	// Define redirects.
-        if ( isset( $data['status']['metas']['redirects'] ) ) {
+        if ( isset( $data['status']['metas']['redirects'] ) ) :
 		$redirects['name'] = __( 'Number of HTTP redirects (301 or 302)', 'check-my-website' );
         	$redirects['data'] = $data['status']['metas']['redirects'];
 		if ( $data['status']['metas']['redirects'] >= 2 ) {
@@ -310,9 +317,7 @@ function cmws_infos( $data ) {
 		} else {
 			$redirects['label'] = 'success';
 		}
-	} else {
-                $redirects = false;
-        }
+	endif;
 
 	return array( 'dns_expiration' => $dns_expiration, 'ssl_expiration' => $ssl_expiration, 'requests' => $requests, 'not_found' => $not_found, 'js_errors' => $js_errors, 'redirects' => $redirects );
 
@@ -326,42 +331,62 @@ function cmws_infos( $data ) {
  */
 function cmws_global( $data ) {
 
+	$id = $url = $state = $label = $last_change_date = $last_change_time = $state_duration = $last_response_time = $latest_response_time = $average_time = $availability = NULL;
+
 	// Define api key.
-	$id = $data['status']['_id'];
+	if ( isset( $data['status']['_id'] ) ) :
+		$id = $data['status']['_id'];
+	endif;
 
 	// Define url.
-	$url = $data['status']['url'];
+	if ( isset( $data['status']['url'] ) ) :
+		$url = $data['status']['url'];
+	endif;
 
 	// Define state and label.
-        $state = cmws_state( 'poller', $data['status']['state'] );
-        $label = cmws_label( 'poller', $data['status']['state'] );
+	if ( isset( $data['status']['state'] ) ) :
+	        $state = cmws_state( 'poller', $data['status']['state'] );
+        	$label = cmws_label( 'poller', $data['status']['state'] );
+	endif;
 
-	// Define last date and time.
-        $last_change_date = cmws_date( $data['status']['laststatechange_bin'], 'full' );
-	$last_change_time = cmws_date( $data['status']['laststatechange_bin'], 'time' );
-        $state_duration = cmws_date_diff( $data['status']['laststatechange_bin'] );
+	// Define last date and time duration.
+	if ( isset( $data['status']['laststatechange_bin'] ) ) :
+	        $last_change_date = cmws_date( $data['status']['laststatechange_bin'], 'full' );
+		$last_change_time = cmws_date( $data['status']['laststatechange_bin'], 'time' );
+	        $state_duration = cmws_date_diff( $data['status']['laststatechange_bin'] );
+	endif;
 
-	// Define last time response.
-	$last_response_time = cmws_date( $data['status']['metas']['lastcheck'], 'time' );
-	$last_key = key( array_slice( $data['day']['series']['checks.' . $id . '.httptime']['data'], -1, 1, TRUE ) );
-        $last_time_response = round( $data['day']['series']['checks.' . $id . '.httptime']['data'][$last_key][1] );
+	// Define last response time (date).
+	if ( isset( $data['status']['metas']['lastcheck'] ) ) :
+		$last_response_time = cmws_date( $data['status']['metas']['lastcheck'], 'time' );
+	endif;
+
+	// Define latest response time.
+	if ( isset( $data['day']['series']['checks.' . $id . '.httptime']['data'] ) ) :
+		$last_key = key( array_slice( $data['day']['series']['checks.' . $id . '.httptime']['data'], -1, 1, TRUE ) );
+	        $latest_response_time = round( $data['day']['series']['checks.' . $id . '.httptime']['data'][$last_key][1] );
+	endif;
 
 	// Define average time (24h).
-	$sum = $count = 0;
-        foreach ( $data['day']['series']['checks.' . $id . '.httptime']['data'] as $key => $values ) {
-		//$day_interval = cmws_display( $values[0] );
-		//if ( $day_interval == '1' ) {
-                	$sum = $sum + $values[1];
-                	$count = $count +1;
-		//}
-        }
-      	$average_time = floor( $sum / $count );
+	if ( isset( $data['day']['series']['checks.' . $id . '.httptime']['data'] ) ) :
+		$sum = $count = 0;
+        	foreach ( $data['day']['series']['checks.' . $id . '.httptime']['data'] as $key => $values ) {
+			//$day_interval = cmws_display( $values[0] );
+			//if ( $day_interval == '1' ) {
+        	        	$sum = $sum + $values[1];
+                		$count = $count +1;
+			//}
+        	}
+      		$average_time = floor( $sum / $count );
+	endif;
 
 	// Define availability (24h).
-	$last_key = key( array_slice( $data['week']['series']['checks.' . $id . '.state.all']['data'], -1, 1, TRUE ) );
-        $availability = round( $data['week']['series']['checks.' . $id . '.state.all']['data'][$last_key][1], 2 );
+	if ( isset( $data['week']['series']['checks.' . $id . '.state.all']['data'] ) ) :
+		$last_key = key( array_slice( $data['week']['series']['checks.' . $id . '.state.all']['data'], -1, 1, TRUE ) );
+        	$availability = round( $data['week']['series']['checks.' . $id . '.state.all']['data'][$last_key][1], 2 );
+	endif;
 
-        return array( 'id' => $id, 'url' => $url, 'state' => $state, 'label' => $label, 'last_change_date' => $last_change_date, 'last_change_time' => $last_change_time, 'state_duration' => $state_duration, 'last_time_response' => $last_time_response, 'last_response_time' => $last_response_time, 'average_time' => $average_time, 'availability' => $availability );
+        return array( 'id' => $id, 'url' => $url, 'state' => $state, 'label' => $label, 'last_change_date' => $last_change_date, 'last_change_time' => $last_change_time, 'state_duration' => $state_duration, 'last_response_time' => $last_response_time, 'latest_response_time' => $latest_response_time, 'average_time' => $average_time, 'availability' => $availability );
 
 }
 
@@ -373,42 +398,25 @@ function cmws_global( $data ) {
  */
 function cmws_data( $data ) {
 
+	$global = $infos = $pollers = $logs = $yslow = NULL;
+
 	if ( isset( $data ) ) {
-
-		if ( isset( $data['status'] ) ) {
-			
-			// Define and fill global array.
+		// Define and fill global, infos, pollers and yslow array.
+		if ( isset( $data['status'] ) ) :
 			$global = cmws_global( $data );
-			
 			$infos = cmws_infos( $data );
-
-			// Define and fill pollers array.
                 	foreach ( $data['status']['lastvalues']['httptime'] as $key => $value ) {
                         	$pollers[$key] = cmws_poller( $key, $value, $data['status']['states'][$key] );
                 	}
-
-			// Define and fill yslow array.
 	                $yslow = cmws_yslow( $data['status']['metas'] );
-			
-                } else {
-                        $global = $infos = $pollers = $yslow = false;
-                }
-
+		endif;			
 		// Define and fill logs array.
-		if ( isset( $data['logs'][0] ) ) { 
+		if ( isset( $data['logs'][0] ) ) : 
 			foreach ( $data['logs'] as $key => $value ) {
                         	$logs[$key] = cmws_log( $data['logs'][$key] );
                 	}
-		} else {
-			$logs = false;
-		}
-
-        } else {
-
-		// Define arrays to false.
-		$global = $infos = $pollers = $logs = $yslow = false;
-
-        }
+		endif;
+	}
 
 	return array( 'global' => $global, 'infos' => $infos, 'pollers' => $pollers, 'logs' => $logs, 'yslow' => $yslow );
 

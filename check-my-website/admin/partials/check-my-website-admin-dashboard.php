@@ -15,6 +15,8 @@
 
 <!-- Dashboard starts -->
 
+	<div class="wrap">
+
 		<div class="cmws-content">
 
 			<div class="cmws-text-center">
@@ -111,5 +113,7 @@
 			?>
 
 		</div>
+
+	</div>
 
 <!-- Dashboard ends -->

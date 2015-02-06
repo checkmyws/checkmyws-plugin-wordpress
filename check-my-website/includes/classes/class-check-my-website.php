@@ -162,6 +162,7 @@ class Check_my_Website {
 
 		$plugin_admin = new Check_my_Website_Admin( $this->get_plugin_name(), $this->get_version() );
 
+		// Load the stylesheet on the admin-side.
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'enqueue_settings' );
@@ -188,7 +189,14 @@ class Check_my_Website {
 
 		$plugin_public = new Check_my_Website_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+		// Load plugin settings.
+                $options = get_option( 'cmws_settings' );
+
+		// Load the stylesheet on the public-side.
+                if ( ( $options['shortcode'] == 1 ) || ( $options['widget'] == 1 ) ) :
+			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+		endif;
+
 		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 	}

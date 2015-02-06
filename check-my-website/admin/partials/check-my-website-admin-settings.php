@@ -15,6 +15,8 @@
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 
+<div class="wrap">
+
 	<div class="cmws-content">
 
 		<h3 class="nav-tab-wrapper">
@@ -43,17 +45,15 @@
                                         case 'settings' :
 		?>
 
-		<div class="wrap">
-			<form method="post" action="options.php">
+		<form method="post" action="options.php">
 
-                        <?php
-                                settings_fields( 'cmws_settings' );
-		                do_settings_sections( 'check-my-website-settings' );
-                               	submit_button();
-                        ?>
+                <?php
+       	        	settings_fields( 'cmws_settings' );
+			do_settings_sections( 'check-my-website-settings' );
+                        submit_button();
+                ?>
 
-                	</form>
-		</div>
+               	</form>
 
 		<?php
 					break;
@@ -63,4 +63,6 @@
                 ?>
 
 	</div>
+
+</div>
 

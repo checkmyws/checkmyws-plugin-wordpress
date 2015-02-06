@@ -43,9 +43,10 @@ class Check_my_Website_Api {
         private $api_data;
 
 	/**
-	 * Load the plugin text domain for translation.
+	 * Initialize the api client and load data.
 	 *
 	 * @since    1.0.0
+	 * @var      string    $key    The api key.
 	 */
 	public function __construct( $key = NULL ) {
 
@@ -65,12 +66,22 @@ class Check_my_Website_Api {
 
 	}
 
+	/**
+         * Return api key.
+         *
+         * @since    1.0.0
+         */
 	public function get_api_key() {
 
                 return $this->api_key;
 
         }
 
+	/**
+         * Return api data.
+         *
+         * @since    1.0.0
+         */
 	public function get_api_data() {
 
 		return $this->api_data;
@@ -81,7 +92,6 @@ class Check_my_Website_Api {
          * Set api data to database.
          *
          * @since    1.0.0
-         * @param    string    $domain    The domain that represents the locale of this plugin.
          */
         private function set_db_data() {
 
@@ -106,9 +116,10 @@ class Check_my_Website_Api {
 		// Request api.
 	        foreach ( $requests as $name => $path ) {
         		$url = $this->api_url . $path . $this->api_key;
-			$request = file_get_contents( $url );
-                        $data = json_decode( $request, true );
-                        $this->api_data[$name] = $data;
+			if ( $request = @file_get_contents( $url ) ) :
+	                        $data = json_decode( $request, true );
+        	                $this->api_data[$name] = $data;
+			endif;
                 }
 
 		// Format api data to table insert.
@@ -133,7 +144,6 @@ class Check_my_Website_Api {
          * Get api data from database.
          *
          * @since    1.0.0
-         * @param    string    $domain    The domain that represents the locale of this plugin.
          */
         private function get_db_data() {
 
@@ -163,7 +173,6 @@ class Check_my_Website_Api {
          * Run to get or set data from api.
          *
          * @since    1.0.0
-         * @param    string    $domain    The domain that represents the locale of this plugin.
          */
         private function run() {
                

@@ -301,7 +301,7 @@ class Check_my_Website_Admin {
                 $current = 'settings';
 
 		// Define page tabs.
-                $tabs = array( 'settings' => __( 'Settings', 'check-my-website' ), 'dashboard' => __( 'Dashboard', 'check-my-website' ) );
+                $tabs = array( 'settings' => __( 'Settings', 'check-my-website' ), 'dashboard' => __( 'Go to Dashboard', 'check-my-website' ) );
 
                 if ( isset ( $_GET['tab'] ) ) {
                         $current = $_GET['tab'];
@@ -328,7 +328,7 @@ class Check_my_Website_Admin {
 		$current = 'overview';
 
 		// Define page tabs.
-		$tabs = array( 'overview' => __( 'Overview', 'check-my-website' ), 'logs' => __( 'Logs', 'check-my-website' ), 'metrics' => __( 'Metrics', 'check-my-website' ), 'settings' => __( 'Settings', 'check-my-website' ) );
+		$tabs = array( 'overview' => __( 'Overview', 'check-my-website' ), 'logs' => __( 'Logs', 'check-my-website' ), 'metrics' => __( 'Metrics', 'check-my-website' ), 'settings' => __( 'Go to Settings', 'check-my-website' ) );
 
 		if ( isset ( $_GET['tab'] ) ) {
 			$current = $_GET['tab']; 

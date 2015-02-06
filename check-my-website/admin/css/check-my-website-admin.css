@@ -1,10 +1,14 @@
 /**
- * All of the CSS for your dashboard-specific functionality should be
+ * All of the CSS for the admin-specific functionality should be
  * included in this file.
  */
 
-/* Chart */
-#flotTip {
+.cmws-chart {
+	height: 300px;
+	width : 100%;
+}
+
+#cmws-flot-tip {
 	color: #fff;
 	background-color: #000;
 	z-index: 1040;
@@ -16,7 +20,8 @@
 	white-space: nowrap;
 	opacity: 0.80;
 }
-#flotTip hr {
+
+#cmws-flot-tip hr {
 	margin-bottom: 3px;
 }
 
@@ -252,6 +257,24 @@
 	padding: 8px;
 	line-height: 1.4;
 	vertical-align: top;
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1280px) {
+	.cmws-widget-font {
+		font-size: 12px;
+        }
+	.cmws-widget-font-x2 {
+                font-size: 18px;
+        }
+        .cmws-widget-font-x3 {
+		font-size: 24px;
+        }
+}
+
+@media screen and (max-width: 1024px) {
+	.cmws-column-2, .cmws-column-3, .cmws-column-6, .cmws-column-9, .cmws-column-12 {
+		width: 100%;
+	}
 }
 
 /* Check my Website Classic Style */

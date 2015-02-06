@@ -39,7 +39,7 @@ if ( $data['global'] ) {
 if ( $data['global'] ) {
 	echo '<div class="cmws-column cmws-column-6"><strong>' . __( 'State duration:', 'check-my-website' ) . '</strong> <span class="cmws-font cmws-' . $data['global']['label'] . '">' . $data['global']['state_duration'] . ' day</span></div>';
 	echo '<div class="cmws-column cmws-column-6"><strong>' . __( 'Availability (24h):', 'check-my-website' ) . '</strong> <span>' . $data['global']['availability'] . '<span> %</span></span></div>';
-	echo '<div class="cmws-column cmws-column-6"><strong>' . __( 'Last time response:', 'check-my-website' ) . '</strong> ' . cmws_convert( $data['global']['last_time_response'], $default_unit ) . '<span class="cmws-widget-font"> ' . $default_unit . '</span></div>';
+	echo '<div class="cmws-column cmws-column-6"><strong>' . __( 'Last time response:', 'check-my-website' ) . '</strong> ' . cmws_convert( $data['global']['latest_response_time'], $default_unit ) . '<span class="cmws-widget-font"> ' . $default_unit . '</span></div>';
 	echo '<div class="cmws-column cmws-column-6"><strong>' . __( 'Average time (24h):', 'check-my-website' ) . '</strong> ' . cmws_convert( $data['global']['average_time'], $default_unit ) . '<span class="cmws-widget-font"> ' . $default_unit . '<span></div>';
 } else {
 	echo '<p><span class="cmws-danger">' . __( 'No data', 'check-my-website' ) . '</span></p>';

@@ -61,6 +61,7 @@ jQuery(document).ready(function(){
 					grid: { hoverable: true, borderWidth: {top: 0, right: 0, bottom: 1, left: 1} },
 					tooltip: true,
 					tooltipOpts: {
+						id: "cmws-flot-tip",
 						defaultTheme: false,
 						content: function(metric, xval, yval, flotItem){
 							var decimals = flotItem.series.decimals || 2;
@@ -90,6 +91,7 @@ jQuery(document).ready(function(){
 					grid: { hoverable: true, borderWidth: {top: 0, right: 0, bottom: 1, left: 1} },
                 	        	tooltip: true,
                         		tooltipOpts: {
+						id: "cmws-flot-tip",
                                 		defaultTheme: false,
                                 		content: function(metric, xval, yval, flotItem){
                                         		var decimals = flotItem.series.decimals || 2;
