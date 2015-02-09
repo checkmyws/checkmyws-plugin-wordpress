@@ -1,5 +1,9 @@
 # Check my Website plugin for Wordpress
 
+Check my Website plugin developped for Wordpress. 
+
+It is free to use it but you need to subscribe an account on the Check my Website service to work with api data of your website.
+
 ## What is Check my Website ?
 
 Check My Website is a service to remotely monitor websites availability and performance every minute from various places around the world.

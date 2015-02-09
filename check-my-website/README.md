@@ -8,7 +8,13 @@ Visualize your website metrics!
 - Directly in your Wordpress admin-side
 - Promote your website metrics
 
+## Presentation
+
+
+
 ## Documentation
+
+Check my Website plugin for Wordpress documentation.
 
 ### API
 

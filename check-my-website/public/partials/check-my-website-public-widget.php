@@ -199,4 +199,3 @@
 
 <!-- Widget ends -->
 
-</div>
